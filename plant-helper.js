@@ -45,7 +45,7 @@ function sendCityEmail(env, origin) {
 // Cloudflare runs this every time the app sends a request.
 async function handleRequest(request, env) {
   const origin = request.headers.get("Origin") || "";
-  const allowedSites = (env.ALLOWED_SITES || "").split(",").map((site) => site.trim());
+  const allowedSites = (env.ALLOWED_SITES || "").split(",").map((site) => site.trim()).filter(Boolean); // skip blanks
   // Not on the list? Say no. (The browser may still read this "no", so the app can explain it.)
   if (!allowedSites.includes(origin)) return reply(403, "This website isn't allowed to use the plant helper.", origin);
   if (request.method === "OPTIONS") return reply(204, null, origin); // the browser asking "may I?" first
