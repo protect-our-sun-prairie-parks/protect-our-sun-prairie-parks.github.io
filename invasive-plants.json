@@ -36,11 +36,7 @@
       "infoSource": "Minnesota DNR",
       "category": "not-regulated",
       "why": "It shades out prairie plants and adds extra nitrogen to the soil, which helps weeds. One plant can make more than 100,000 seeds.",
-      "frontPage": 5,
-      "lookFor": "A bushy plant 3 to 6 feet tall with leaves in threes (finely toothed) and long spikes of tiny white or yellow flowers that smell very sweet.",
-      "photo": "photos/sweet-clover.jpg",
-      "photoCredit": "Photo: raw_no, CC0, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Melilotus_albus_211236101.jpg"
+      "lookFor": "A bushy plant 3 to 6 feet tall with leaves in threes (finely toothed) and long spikes of tiny white or yellow flowers that smell very sweet."
     },
     {
       "scientificName": "Alliaria petiolata",
@@ -89,11 +85,7 @@
       "infoSource": "Minnesota DNR",
       "category": "not-regulated",
       "why": "It forms huge patches of only itself in wetlands and covers the ground with dead grass, so native plants and insects can't live there.",
-      "frontPage": 9,
-      "lookFor": "A tall grass (2 to 6 feet) in wet places, with flat leaves and thick seed heads that start green or purple and turn tan. The striped garden kind, ribbon grass, is regulated; this plain green kind isn't.",
-      "photo": "photos/reed-canary-grass.jpg",
-      "photoCredit": "Photo: Robert Flogaus-Faust, CC BY 4.0, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Phalaris_arundinacea_3_RF.jpg"
+      "lookFor": "A tall grass (2 to 6 feet) in wet places, with flat leaves and thick seed heads that start green or purple and turn tan. The striped garden kind, ribbon grass, is regulated; this plain green kind isn't."
     },
     {
       "scientificName": "Reynoutria japonica",
@@ -162,24 +154,28 @@
       "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Dipsacus_fullonum_2026_G1.jpg"
     },
     {
-      "scientificName": "Verbascum thapsus",
-      "otherNames": [],
-      "commonName": "Common mullein",
-      "infoPage": "https://www.invasive.org/browse/subject/3080?tab=subject-info",
-      "infoSource": "Invasive.org",
-      "category": "not-regulated",
-      "why": "One plant can drop more than 100,000 seeds, and it crowds out native plants in sunny fields and along roadsides.",
-      "frontPage": 17,
-      "lookFor": "First year: a flat circle of big, soft, fuzzy gray-green leaves. Second year: one tall stalk (up to 6 feet) covered in small yellow flowers.",
-      "photo": "photos/common-mullein.jpg",
-      "photoCredit": "Photo: gailhampshire from Cradley, Malvern, U.K, CC BY 2.0, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Verbascum_thapsus_(16099710708).jpg"
+      "scientificName": "Torilis japonica",
+      "otherNames": ["Torilis rubella", "Caucalis japonica"],
+      "commonName": "Japanese hedge-parsley",
+      "dnrPage": "https://dnr.wisconsin.gov/topic/Invasives/fact/JapaneseHedgeparsley",
+      "frontPage": 5,
+      "lookFor": "Lacy leaves like carrot or parsley, and small flat clusters of tiny white flowers in July and August. Then come little burrs that stick to your socks.",
+      "photo": "photos/japanese-hedge-parsley.jpg",
+      "photoCredit": "Photo: aarongunnar, CC BY, iNaturalist",
+      "photoCreditUrl": "https://www.inaturalist.org/photos/4352420",
+      "category": "depends-on-county",
+      "why": "It spreads fast in woods, prairies and roadsides, and its sticky burrs ride on people and animals to new places."
     },
     {
       "scientificName": "Centaurea stoebe",
       "otherNames": ["Centaurea maculosa", "Centaurea biebersteinii"],
       "commonName": "Spotted knapweed",
       "dnrPage": "https://dnr.wisconsin.gov/topic/Invasives/fact/SpottedKnapweed",
+      "frontPage": 17,
+      "lookFor": "Pink-purple flowers like small thistles, but the leaves aren't prickly. The bud under each flower has tiny dark-tipped scales that look like spots. Likes dry, sunny roadsides.",
+      "photo": "photos/spotted-knapweed.jpg",
+      "photoCredit": "Photo: Robert Flogaus-Faust, CC BY 4.0, Wikimedia Commons",
+      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Centaurea_stoebe_RF.jpg",
       "category": "restricted",
       "why": "It takes over sunny, dry places like prairies and makes it hard for other plants to grow nearby."
     },
@@ -301,6 +297,12 @@
       "otherNames": [],
       "commonName": "Leafy spurge",
       "dnrPage": "https://dnr.wisconsin.gov/topic/Invasives/fact/LeafySpurge",
+      "frontPage": 9,
+      "lookFor": "Narrow leaves and flat clusters of yellow-green flower parts at the top in early summer. A broken stem drips white, milky sap.",
+      "warning": "Don't touch! The milky sap can make skin red, itchy and sore.",
+      "photo": "photos/leafy-spurge.jpg",
+      "photoCredit": "Photo: NY State IPM Program at Cornell University, CC BY 2.0, Wikimedia Commons",
+      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Euphorbia_esula_-whole_plant_(18218697674).jpg",
       "category": "restricted",
       "why": "Its very deep roots make it almost impossible to pull out, and its milky sap can irritate skin."
     },
@@ -433,5 +435,5 @@
       "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Typha_%C3%97_glauca.jpg"
     }
   ],
-  "otherSources": "Sweet clover, reed canary grass and common mullein are not in NR 40. Their facts come from the Minnesota DNR (sweet clover, reed canary grass) and Invasive.org (common mullein)."
+  "otherSources": "Sweet clover and reed canary grass are not in NR 40. Their facts come from the Minnesota DNR."
 }
