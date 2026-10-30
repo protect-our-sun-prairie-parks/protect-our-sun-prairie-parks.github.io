@@ -1,0 +1,727 @@
+/* Colors we use everywhere, kept in one place so they are easy to change. */
+:root {
+  --green: #2e7d32;
+  --green-dark: #1b5e20;
+  --cream: #fbf8ef;
+  --text: #1f2a1f;
+  --gray: #5f6b5f;
+}
+
+/* Hidden screens must stay hidden, no matter what other rules say. */
+[hidden] {
+  display: none !important;
+}
+
+/* Big, easy-to-read text on a soft background. */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--cream);
+  -webkit-text-size-adjust: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The green bar at the top. It stays put while the page scrolls. Extra padding keeps it clear of the phone's notch. */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green);
+  color: white;
+  padding: 8px 8px 8px 16px;
+  padding-top: max(8px, env(safe-area-inset-top));
+}
+
+header h1 {
+  flex: 1;
+  margin: 0;
+  font-size: 20px;
+}
+
+/* The round ℹ️ button in the header. */
+.icon-button {
+  min-height: 48px;
+  width: 48px;
+  background: none;
+  border: none;
+  font-size: 26px;
+}
+
+/* Keep content a comfy width, even on a big screen, and fill the phone's height. */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px 16px 0;
+  box-sizing: border-box;
+}
+
+/* Each screen fills the space so its buttons can sit at the very bottom. */
+main > section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Even spacing between the words on each screen. */
+main > section p,
+main > section h2 {
+  margin: 0 0 12px;
+}
+
+/* The green "Watch out!" area at the top of the front page. */
+.hero {
+  margin: -16px -16px 16px;
+  padding: 4px 16px 16px;
+  background: var(--green);
+  color: white;
+}
+
+.hero h2 {
+  margin: 0 0 6px;
+  font-size: 26px;
+}
+
+.hero p {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.hero .link-button {
+  color: white;
+  font-size: 17px;
+}
+
+/* The three big choices on the front page. */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 16px;
+  background: white;
+  border: 2px solid var(--green);
+  border-radius: 16px;
+  color: var(--text);
+  text-align: left;
+}
+
+.choice strong {
+  color: var(--green-dark);
+  font-size: 22px;
+}
+
+.choice > span:not(.choice-photos) {
+  color: var(--gray);
+  font-size: 17px;
+}
+
+/* A few small round plant photos on the "Invasive plants" and "Endangered plants" buttons. */
+.choice-photos {
+  display: flex;
+  gap: 6px;
+}
+
+.choice-photos img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* The plant pages (invasive and endangered): pop-up pages that fill the screen. */
+#plant-list,
+#endangered-list {
+  box-sizing: border-box; /* the padding goes inside the 100% width, so nothing spills off the screen */
+  width: 100%;
+  max-width: 600px;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0 auto;
+  padding: 0 16px 16px;
+  border-radius: 0;
+  overflow-y: auto;
+}
+
+/* The plant list's title and Close button stay at the top while you scroll. */
+.page-top {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 -16px 8px;
+  padding: 10px 16px;
+  padding-top: max(10px, env(safe-area-inset-top));
+  background: var(--green);
+  color: white;
+}
+
+.page-top h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.page-top .small {
+  min-height: 44px;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+/* The grid of plant tiles on the plant list page: about 3 across on most phones. */
+.plant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* One plant tile: a square photo and the name. Red border = prohibited. */
+.plant-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  background: white;
+  border: 2px solid #e3dfd2;
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.plant-tile img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #e3dfd2;
+}
+
+.plant-tile span {
+  padding: 6px 4px 8px;
+}
+
+.plant-tile.prohibited {
+
+  box-shadow: none;;
+  border-width: 0;
+}
+
+/* The little ⚠️ in the corner of plants that are dangerous to touch. */
+.plant-tile .tile-warning {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  padding: 0 4px;
+  background: white;
+  border-radius: 8px;
+}
+
+/* The pop-out card for one plant. On phones it slides up from the bottom of the screen. */
+#plant-sheet {
+  width: 100%;
+  max-width: 600px;
+  max-height: 92dvh;
+  margin: auto auto 0;
+  padding: 0;
+  overflow-y: auto;
+  border-radius: 16px 16px 0 0;
+}
+
+#plant-sheet img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.sheet-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.sheet-content h2,
+.sheet-content p {
+  margin: 0;
+}
+
+/* The pop-out card's buttons stay in reach at the bottom while you scroll. */
+#plant-sheet .sheet-buttons {
+  position: sticky;
+  bottom: 0;
+  gap: 10px;
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  background: var(--cream);
+  border-top: 1px solid #e3dfd2;
+}
+
+/* The colored label on each plant: red = prohibited, green = restricted, purple = depends on county. */
+.badge {
+  align-self: flex-start;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.prohibited {
+  background: #c62828;
+}
+
+.badge.restricted {
+  background: var(--green-dark);
+}
+
+.badge.depends-on-county {
+  background: #6a1b9a;
+}
+
+/* Gray = invasive, but not regulated by state law. Blue = a group of look-alike plants. */
+.badge.not-regulated {
+  background: #546e7a;
+}
+
+.badge.mixed {
+  background: #1565c0;
+}
+
+/* Pink = endangered, teal = threatened. Both are protected by law. */
+.badge.endangered {
+  background: #ad1457;
+}
+
+.badge.threatened {
+  background: #00695c;
+}
+
+/* The list of kinds on a group's card. */
+.kinds {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.kinds li {
+  margin-bottom: 8px;
+}
+
+/* "Step 1 of 4" label. */
+.step {
+  margin: 0;
+  color: var(--gray);
+  font-size: 16px;
+}
+
+h2 {
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+/* Buttons stick to the bottom of the screen, where a thumb can reach them one-handed. */
+.actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: auto -16px 0;
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  background: var(--cream);
+  border-top: 1px solid #e3dfd2;
+  z-index: 1;
+}
+
+/* All buttons are large and easy to tap. Quick taps never zoom the page.
+   Photo labels and link-buttons use the same look, so they feel like buttons too. */
+button,
+label.big,
+label.small,
+a.button-link {
+  min-height: 56px;
+  border-radius: 14px;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Buttons don't use the page's font on their own, so tell them to. */
+button {
+  font: inherit;
+}
+
+/* Center the words inside photo labels and link-buttons, like a button does. */
+label.big,
+label.small,
+a.button-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The main button on each screen. */
+.big {
+  background: var(--green);
+  color: white;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.big:active {
+  background: var(--green-dark);
+}
+
+/* Less important buttons, like "Back". */
+.small {
+  background: white;
+  color: var(--green-dark);
+  border: 2px solid var(--green);
+}
+
+/* Hide the plain file box; the label around it is what people tap. */
+label input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* Two buttons side by side, to save space on small phones. */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.row label {
+  padding: 4px 8px;
+  text-align: center;
+  font-size: 20px;
+}
+
+/* Show a clear outline when someone uses a keyboard to reach a photo label. */
+label:has(input:focus-visible) {
+  outline: 3px solid var(--green-dark);
+  outline-offset: 3px;
+}
+
+/* The photo grows or shrinks to fill the space left, so the buttons never cover it. */
+#photo-preview {
+  flex: 1 1 0;
+  min-height: 120px;
+  max-height: 50vh;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+/* The map fills the space between the tip and the buttons. */
+#map {
+  flex: 1 1 0;
+  min-height: 160px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  z-index: 0; /* keeps the map's own layers under our buttons */
+}
+
+/* Smaller gray text for extra info. */
+.hint {
+  font-size: 16px;
+  color: var(--gray);
+}
+
+h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+/* The big answer card on the result screen. Its color depends on the answer. */
+.card {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 3px solid var(--gray);
+  background: white;
+}
+
+.card p {
+  margin: 0 0 8px;
+}
+
+.card.invasive {
+  border-color: #e65100;
+  background: #fff4e5;
+}
+
+.card.endangered {
+  border-color: #ad1457;
+  background: #fce4ec;
+}
+
+.card.not-listed {
+  border-color: var(--green);
+}
+
+.plant-name {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Scientific names are written in italics. */
+.science-name {
+  font-style: italic;
+  color: var(--gray);
+}
+
+/* "Don't touch!" warnings stand out in red. */
+.warning {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #b71c1c;
+  color: white;
+  font-weight: bold;
+}
+
+/* The list of the AI's top guesses. */
+#guesses {
+  margin: 0 0 16px;
+  padding-left: 28px;
+}
+
+#guesses li {
+  margin-bottom: 12px;
+}
+
+#guesses li > span {
+  display: block;
+}
+
+.guess-name {
+  font-weight: bold;
+}
+
+/* "Invasive list" or "Endangered list" label next to a guess. Pink for endangered. */
+#guesses .tag {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: #e65100;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#guesses .tag.protected {
+  background: #ad1457;
+}
+
+/* The bar that shows how sure the AI is. */
+.bar {
+  height: 12px;
+  border-radius: 6px;
+  background: #e3dfd2;
+  overflow: hidden;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+}
+
+/* Links that look like buttons, like the big "on the DNR website" button. Long names wrap neatly in the middle. */
+a.button-link {
+  padding: 8px 16px;
+  text-align: center;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+/* A button that looks like a plain link. */
+.link-button {
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--green-dark);
+  text-decoration: underline;
+}
+
+/* The About box, which pops up over the app. */
+dialog {
+  width: min(92vw, 480px);
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  background: var(--cream);
+  color: var(--text);
+}
+
+/* The About box is long, so it scrolls inside. */
+#about {
+  max-height: 88dvh;
+  overflow-y: auto;
+}
+
+dialog h3 {
+  margin: 10px 0 0;
+  font-size: 19px;
+}
+
+dialog ul,
+dialog ol {
+  margin: 0;
+  padding-left: 22px;
+}
+
+dialog li {
+  margin-bottom: 4px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+dialog h2,
+dialog p {
+  margin: 0;
+}
+
+
+/* Narrow phones: a shorter title and slimmer icons, so the header stays on one or two lines. */
+@media (max-width: 430px) {
+  .wide-only {
+    display: none;
+  }
+
+  header {
+    gap: 4px;
+  }
+
+  .icon-button {
+    width: 40px;
+    font-size: 22px;
+  }
+}
+
+/* Short phones (like the small iPhone SE): tighten the spacing so each screen still fits. */
+@media (max-height: 620px) {
+  body {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 23px;
+  }
+
+  header h1 {
+    font-size: 18px;
+  }
+
+  .hero h2 {
+    font-size: 22px;
+  }
+
+  /* Smaller buttons and photos, so all three front-page choices fit on the screen. */
+  .choices {
+    gap: 10px;
+  }
+
+  .choice {
+    gap: 4px;
+    padding: 10px 14px;
+  }
+
+  .choice strong {
+    font-size: 20px;
+  }
+
+  .choice > span:not(.choice-photos) {
+    font-size: 16px;
+  }
+
+  .choice-photos img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .plant-tile {
+    font-size: 14px;
+  }
+
+  main {
+    padding-top: 10px;
+  }
+
+  main > section p,
+  main > section h2 {
+    margin-bottom: 8px;
+  }
+
+  button,
+  label.big,
+  label.small,
+  a.button-link {
+    min-height: 50px;
+  }
+
+  .actions {
+    gap: 8px;
+    padding-top: 8px;
+  }
+}
+
+/* The numbered steps on the report screen. */
+.todo {
+  margin: 0 0 12px;
+  padding-left: 26px;
+}
+
+/* The report details, ready to copy into the DNR's report. */
+#report-details {
+  margin: 0 0 8px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere; /* long map links wrap instead of running off the screen */
+  font-family: inherit;
+  font-size: 16px;
+  user-select: text;
+}
