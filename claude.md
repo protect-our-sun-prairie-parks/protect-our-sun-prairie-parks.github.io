@@ -1,7 +1,9 @@
-# FLL Protect Our WI Parks (invasive + endangered plants)
+# FLL Protect Our Sun Prairie Parks (invasive + endangered plants)
 
 ## Who this is for
 A FIRST LEGO League team (kids ages 9–14) building their Innovation Project. The kids must be able to explain every file to judges. Simplicity beats cleverness.
+
+This app is a copy of our earlier Protect Our WI Parks app, changed to match the city of Sun Prairie's feedback. Protect Our WI Parks lives in its own repo and stays as it is, for reference. Don't change it from here.
 
 ## Standing rules
 - Plain HTML, CSS, JavaScript only. No frameworks, no npm, no build step.
@@ -18,15 +20,17 @@ A FIRST LEGO League team (kids ages 9–14) building their Innovation Project. T
 - Every push runs the robot checker (`.github/workflows/check.yml`).
 
 ## Safety and privacy
-- This repo will be PUBLIC (free GitHub Pages hosting). Never put names, school, team name, addresses, or anyone's location in code, comments, commits, or sample data.
-- Endangered plant spots are secret. Never put where an endangered plant grows anywhere in the repo, and only use photos whose source page doesn't name a Wisconsin location. Endangered reports have no map link and say "Keep the spot secret".
-- Never commit API keys. The Pl@ntNet key lives only in Cloudflare, as the `PLANTNET_KEY` secret of the `plant-helper` worker. Explain where the key lives and its risk.
-- The app never sends anything to the DNR (no email, no forms). The report screen shows the details to copy and opens the DNR's official report page (the invasive species page, or the DNR's rare species form for endangered plants); people report through the DNR's own channel.
+- This repo will be PUBLIC (free GitHub Pages hosting). Never put people's names, school, team name, addresses, or anyone's location in code, comments, commits, or sample data. The city's name (Sun Prairie) is fine: the city asked for it.
+- Never put an email address in the repo. The city's address (a team test address for now) lives only in Cloudflare, as the `CITY_EMAIL` secret of the plant helper worker. The app gets it from the helper's `/email` route.
+- Never commit API keys. The Pl@ntNet key lives only in Cloudflare, as the `PLANTNET_KEY` secret of the plant helper worker. Explain where the key lives and its risk.
+- Endangered plant spots are secret. Never put where an endangered plant grows anywhere in the repo (the endangered list may only say the DNR lists a plant for our county, which is public). Only use photos whose source page doesn't name a Wisconsin location. On screen, endangered reports have no map link and say "Keep the spot secret"; the email to the city includes the spot and asks the city to keep it secret.
+- Photos must be CC0, CC BY or public domain (no CC BY-SA), credited, with hidden data (EXIF/GPS) removed.
+- The app never sends anything by itself. "Email the city" opens the person's own email app (a `mailto:` link) with the report filled in; they attach their photo and tap Send. A small link still lets people report to the DNR too.
 
 ## Running it
 - Local: `python3 -m http.server` then open http://localhost:8000
-- Live: https://protect-our-wi-parks.github.io (GitHub Pages; HTTPS is required for camera and GPS). Pushing to `main` updates it.
-- Plant helper: `plant-helper.js` runs on Cloudflare Workers at https://plant-helper.wi-invasive-plants.workers.dev. After changing it, redeploy it in Cloudflare.
+- Live: not set up yet (GitHub Pages; HTTPS is required for camera and GPS). Pushing to `main` will update it. Add the address to README "Our live setup" once it exists.
+- Plant helper: `plant-helper.js` runs on Cloudflare Workers. `HELPER_URL` in `app.js` still points at the Protect Our WI Parks helper until this app's helper is set up. After changing `plant-helper.js`, redeploy it in Cloudflare.
 
 ## Living docs
 - Keep README.md (how to run/deploy) and EXPLAIN.md (kid-level explanation and judge Q&A) up to date whenever the code changes.
