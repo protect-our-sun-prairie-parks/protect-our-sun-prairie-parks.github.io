@@ -21,15 +21,15 @@ The report screen shows the plant and the exact spot. **✉️ Email the city** 
 
 ## Our live setup
 
-Not online yet: hosting is the next step. Fill this in once it's set up.
-
 | What | Address |
 |---|---|
-| The app (GitHub Pages) | *(not set up yet)* |
-| The code (GitHub) | *(not set up yet)* |
-| The plant helper (Cloudflare) | *(not set up yet; `app.js` still points `HELPER_URL` at the Protect Our WI Parks helper)* |
+| The app (GitHub Pages) | https://protect-our-sun-prairie-parks.github.io |
+| The code (GitHub) | https://github.com/protect-our-sun-prairie-parks/protect-our-sun-prairie-parks.github.io |
+| The plant helper (Cloudflare) | https://sun-prairie-helper.wi-invasive-plants.workers.dev |
 
-Two things are stored **only** in Cloudflare, as secrets of the plant helper worker: the Pl@ntNet key (`PLANTNET_KEY`) and the city's email address (`CITY_EMAIL`). Neither is in this code. `ALLOWED_SITES` must list the app's address and `http://localhost:8000`.
+The plant helper's address says `wi-invasive-plants`: that's the name of our Cloudflare account, which we share with Protect Our WI Parks (it has its own helper, `plant-helper`). The two apps' helpers are separate, so changing one never breaks the other.
+
+Two things are stored **only** in Cloudflare, as secrets of the `sun-prairie-helper` worker: the Pl@ntNet key (`PLANTNET_KEY`) and the city's email address (`CITY_EMAIL`). Neither is in this code. `ALLOWED_SITES` is `https://protect-our-sun-prairie-parks.github.io,http://localhost:8000`.
 
 ## Using the app
 
@@ -122,7 +122,7 @@ Phone camera and GPS only work on secure `https://` pages. A laptop on Wi-Fi ser
 The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, not on phones. It keeps the key secret, accepts photos only from our website, and passes them to Pl@ntNet. It also keeps the city's email address and gives it to our website when someone taps **Email the city**. It saves nothing.
 
 1. Sign up at https://dash.cloudflare.com/sign-up (the Free plan is enough). ⚠️ When Cloudflare asks for a **workers.dev subdomain**, don't use a real name; it appears in the helper's address.
-2. Go to **Workers & Pages** → **Create** → **Start with Hello World** → name it `plant-helper` → **Deploy**.
+2. Go to **Workers & Pages** → **Create** → **Start with Hello World** → name it `sun-prairie-helper` → **Deploy**.
 3. Click **Edit code**, delete everything, paste in all of `plant-helper.js`, and click **Deploy**.
 4. Open the worker's **Settings → Variables and Secrets** and add three:
    - Type **Secret**, name `PLANTNET_KEY`, value: your Pl@ntNet key
@@ -137,7 +137,7 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
 **Good to know:** the helper calls Pl@ntNet from a server, not from a web page, so Pl@ntNet's "Authorized domains" list isn't used. Our helper works with that list empty.
 
 ### Updating the plant helper
-`plant-helper.js` on GitHub is just a copy for reading. The one that runs lives in Cloudflare. If you change it, paste the new version into Cloudflare (**Workers & Pages → plant-helper → Edit code → Deploy**). Your `PLANTNET_KEY`, `CITY_EMAIL` and `ALLOWED_SITES` settings stay as they are.
+`plant-helper.js` on GitHub is just a copy for reading. The one that runs lives in Cloudflare. If you change it, paste the new version into Cloudflare (**Workers & Pages → sun-prairie-helper → Edit code → Deploy**). Your `PLANTNET_KEY`, `CITY_EMAIL` and `ALLOWED_SITES` settings stay as they are.
 
 **To change where reports go** (for example, from the test address to the city's real one), update `CITY_EMAIL` in Cloudflare. No code changes, and every phone picks it up the next time someone opens the app.
 

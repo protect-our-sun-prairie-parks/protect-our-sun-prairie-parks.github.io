@@ -21,16 +21,16 @@ This app is a copy of our earlier Protect Our WI Parks app, changed to match the
 
 ## Safety and privacy
 - This repo will be PUBLIC (free GitHub Pages hosting). Never put people's names, school, team name, addresses, or anyone's location in code, comments, commits, or sample data. The city's name (Sun Prairie) is fine: the city asked for it.
-- Never put an email address in the repo. The city's address (a team test address for now) lives only in Cloudflare, as the `CITY_EMAIL` secret of the plant helper worker. The app gets it from the helper's `/email` route.
-- Never commit API keys. The Pl@ntNet key lives only in Cloudflare, as the `PLANTNET_KEY` secret of the plant helper worker. Explain where the key lives and its risk.
+- Never put an email address in the repo. The city's address (a team test address for now) lives only in Cloudflare, as the `CITY_EMAIL` secret of the `sun-prairie-helper` worker. The app gets it from the helper's `/email` route.
+- Never commit API keys. The Pl@ntNet key lives only in Cloudflare, as the `PLANTNET_KEY` secret of the `sun-prairie-helper` worker. Explain where the key lives and its risk.
 - Endangered plant spots are secret. Never put where an endangered plant grows anywhere in the repo (the endangered list may only say the DNR lists a plant for our county, which is public). Only use photos whose source page doesn't name a Wisconsin location. On screen, endangered reports have no map link and say "Keep the spot secret"; the email to the city includes the spot and asks the city to keep it secret.
 - Photos must be CC0, CC BY or public domain (no CC BY-SA), credited, with hidden data (EXIF/GPS) removed.
 - The app never sends anything by itself. "Email the city" opens the person's own email app (a `mailto:` link) with the report filled in; they attach their photo and tap Send. A small link still lets people report to the DNR too.
 
 ## Running it
 - Local: `python3 -m http.server` then open http://localhost:8000
-- Live: not set up yet (GitHub Pages; HTTPS is required for camera and GPS). Pushing to `main` will update it. Add the address to README "Our live setup" once it exists.
-- Plant helper: `plant-helper.js` runs on Cloudflare Workers. `HELPER_URL` in `app.js` still points at the Protect Our WI Parks helper until this app's helper is set up. After changing `plant-helper.js`, redeploy it in Cloudflare.
+- Live: https://protect-our-sun-prairie-parks.github.io (GitHub Pages; HTTPS is required for camera and GPS). Pushing to `main` updates it.
+- Plant helper: `plant-helper.js` runs on Cloudflare Workers as `sun-prairie-helper`, at https://sun-prairie-helper.wi-invasive-plants.workers.dev. It's separate from the WI app's `plant-helper`; never change that one from here. After changing `plant-helper.js`, redeploy it in Cloudflare.
 
 ## Living docs
 - Keep README.md (how to run/deploy) and EXPLAIN.md (kid-level explanation and judge Q&A) up to date whenever the code changes.

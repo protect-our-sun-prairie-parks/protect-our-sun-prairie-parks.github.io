@@ -437,7 +437,7 @@ function findPlant(scientificName) {
 
 // Our plant helper on Cloudflare. It holds the secret Pl@ntNet key, so the app never needs it.
 // If you set up your own helper (see README), put its address here.
-const HELPER_URL = "https://plant-helper.wi-invasive-plants.workers.dev";
+const HELPER_URL = "https://sun-prairie-helper.wi-invasive-plants.workers.dev";
 
 // Below this, we say the AI "isn't sure". 0.2 means 20% sure.
 const LOW_CONFIDENCE = 0.2;
