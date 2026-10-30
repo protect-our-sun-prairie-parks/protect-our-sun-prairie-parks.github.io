@@ -117,6 +117,9 @@ Phone camera and GPS only work on secure `https://` pages. A laptop on Wi-Fi ser
    ```
 4. In the repository, go to **Settings → Pages** → **Deploy from a branch** → **main** and **/ (root)** → **Save**.
 5. After 1–2 minutes, the app is at `https://USERNAME.github.io/REPO/`
+6. Open the **Actions** tab. If it says **"Workflows aren't being run on this repository"**, click **Enable Actions on this repository**. (Brand-new organizations start with Actions off, and then the robot checker never runs.)
+
+**Good to know:** a repo named exactly `ORGANIZATION.github.io` (like ours) publishes `main` by itself as soon as it's pushed, and GitHub won't let you turn Pages off for it. So whatever is on `main` is live right away; build new work on a branch and merge it when it's ready.
 
 ### 3. Set up the plant helper (Cloudflare Workers, free)
 The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, not on phones. It keeps the key secret, accepts photos only from our website, and passes them to Pl@ntNet. It also keeps the city's email address and gives it to our website when someone taps **Email the city**. It saves nothing.
@@ -129,7 +132,7 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
    - Type **Secret**, name `CITY_EMAIL`, value: the email address plant reports should go to (for testing, a team test address; later, the city's real address)
    - Type **Text**, name `ALLOWED_SITES`, value: `https://USERNAME.github.io,http://localhost:8000`
    
-   Save or deploy.
+   Click **Deploy** (or **Add variable and deploy**). ⚠️ **Save version** alone does *not* turn a setting on: the helper keeps acting as if it's missing until you deploy.
 5. Copy the helper's address (like `https://plant-helper.YOUR-SUBDOMAIN.workers.dev`).
 6. In `app.js`, find `HELPER_URL` and paste that address in. Because `app.js` changed, add 1 to both version numbers in `index.html` (see "Making changes on GitHub"). Then run `git add .`, `git commit -m "Connect plant helper"` and `git push`.
 7. **Check it:** open the helper's address in a browser. If you see `This website isn't allowed to use the plant helper`, it's running. (A browser address bar isn't on the allowed list, so that "no" is correct.) Then open the app and try a real photo, and tap **Email the city** on a report: your email app should open with the city's address filled in.
