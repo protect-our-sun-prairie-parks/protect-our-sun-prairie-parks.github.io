@@ -67,6 +67,7 @@ function setUpButtons() {
   document.getElementById("retry-button").addEventListener("click", identifyPhoto);
   document.getElementById("gps-button").addEventListener("click", findMe);
   document.getElementById("copy-button").addEventListener("click", copyDetails);
+  document.getElementById("email-button").addEventListener("click", emailCity);
   document.getElementById("start-over").addEventListener("click", startOver);
   document.getElementById("sheet-report").addEventListener("click", reportShownPlant);
   document.getElementById("plant-sheet").addEventListener("click", closeWhenTappedOutside);
@@ -329,7 +330,7 @@ function showMap() {
 
 // Save where the plant is, put a pin on the map, and show the Next button.
 function setLocation(lat, lon, source) {
-  // 5 decimal places is about 1 meter: plenty for DNR to find the plant.
+  // 5 decimal places is about 1 meter: plenty for the city to find the plant.
   plantLocation = { lat: Number(lat.toFixed(5)), lon: Number(lon.toFixed(5)), source };
   showLocationTip(LOCATION_WORDS[source] + " Wrong spot? Tap the map to move the pin. Then tap Next.");
   if (map) {
@@ -522,7 +523,7 @@ let decision = null;
 
 // What each list category means, in plain words.
 const CATEGORY_WORDS = {
-  prohibited: "PROHIBITED in Wisconsin. It's not common here yet, so telling the DNR about it really matters!",
+  prohibited: "PROHIBITED in Wisconsin. It's not common here yet, so reporting it really matters!",
   restricted: "RESTRICTED in Wisconsin. It's already found in parts of the state.",
   "depends-on-county": "Prohibited or restricted in Wisconsin, depending on the county.",
   "not-regulated": "Invasive, but NOT regulated by Wisconsin law, so the DNR may not track it.",
@@ -603,7 +604,7 @@ function fillInvasiveCard(card, { guess, plant }) {
   if (plant.warning) addText(card, "p", "⚠️ " + plant.warning, "warning");
   addText(card, "p", CATEGORY_WORDS[plant.category]);
   addText(card, "p", "Why it's a problem: " + plant.why);
-  addText(card, "p", `The AI is ${percent(guess.score)} sure. It can be wrong, so the DNR makes the final call.`, "hint");
+  addText(card, "p", `The AI is ${percent(guess.score)} sure. It can be wrong, so experts make the final call.`, "hint");
 }
 
 // Fill the card for a possible endangered or threatened plant.
@@ -613,8 +614,8 @@ function fillEndangeredCard(card, { guess, plant }) {
   addText(card, "p", plant.scientificName, "science-name");
   addText(card, "p", "🚫 " + PROTECTED_WARNING, "warning");
   addText(card, "p", CATEGORY_WORDS[plant.category]);
-  addText(card, "p", "Planted in a garden? Then you don't need to report it. The DNR wants to know about wild ones.", "hint");
-  addText(card, "p", `The AI is ${percent(guess.score)} sure. It can be wrong, so the DNR makes the final call.`, "hint");
+  addText(card, "p", "Planted in a garden? Then you don't need to report it. The city wants to know about wild ones.", "hint");
+  addText(card, "p", `The AI is ${percent(guess.score)} sure. It can be wrong, so experts make the final call.`, "hint");
 }
 
 // Fill the card when it's not on the list, the AI isn't sure, or we couldn't check the list.
@@ -660,23 +661,27 @@ function showGuesses() {
 const DNR_INVASIVES_PAGE = "https://dnr.wisconsin.gov/topic/Invasives";
 const DNR_ENDANGERED_PAGE = "https://dnr.wisconsin.gov/topic/EndangeredResources/ETList";
 
-// Where to report: the DNR's invasive species page, or the DNR's rare species form for endangered plants.
+// To tell the state too: the DNR's invasive species page, or the DNR's rare species form for endangered plants.
 const INVASIVE_REPORT_PAGE = "https://dnr.wisconsin.gov/topic/Invasives/report";
 const ENDANGERED_REPORT_FORM = "https://survey123.arcgis.com/share/f57cba58511a4c99b1d1292776b05125";
+
+// The city's email address. It isn't written in our code: the plant helper gives it to us (see README).
+let cityEmail = null;
 
 // Is this report about an endangered or threatened plant? Then its spot stays secret.
 function isSecretSpot() {
   return Boolean(decision && decision.plant && isProtected(decision.plant));
 }
 
-// Fill in the report screen: how sure we are, the details to copy, the map link, and the right DNR pages.
+// Fill in the report screen: how sure we are, the details, the map link, and the DNR pages.
 function updateReportScreen() {
   document.getElementById("report-tip").textContent = reportTip();
   document.getElementById("secret-note").hidden = !isSecretSpot();
   document.getElementById("report-details").textContent = reportDetails();
-  document.getElementById("spot-map").hidden = isSecretSpot(); // no map link for endangered plants
+  document.getElementById("spot-map").hidden = isSecretSpot(); // no map link on screen for endangered plants
   if (plantLocation) document.getElementById("spot-map").href = mapLink();
   document.getElementById("report-link").href = isSecretSpot() ? ENDANGERED_REPORT_FORM : INVASIVE_REPORT_PAGE;
+  document.getElementById("email-problem").hidden = true;
   showLearnLink(decision && decision.plant);
 }
 
@@ -695,11 +700,11 @@ function showLearnLink(plant) {
 function reportTip() {
   const { kind, guess, plant } = decision || {};
   const notTracked = plant && categoryOf(plant) === "not-regulated"
-    ? " This plant isn't regulated by state law, so the DNR may not track it. You can also tell whoever takes care of the land." : "";
+    ? " This plant isn't regulated by state law, but the city may still want to know about it." : "";
   const thanks = isProtected(plant || {}) ? "Thanks for helping protect it!" : "Thanks for watching out!";
   if (kind === "known") return `You picked ${plant.commonName} from the list. ${thanks}` + notTracked;
-  if (plant) return `The AI thinks this may be ${plant.commonName} (${percent(guess.score)} sure). The DNR will check.` + notTracked;
-  return "The AI didn't match this to our lists. If you still think it's invasive, you can report it anyway.";
+  if (plant) return `The AI thinks this may be ${plant.commonName} (${percent(guess.score)} sure). The city will check.` + notTracked;
+  return "The AI didn't match this to our lists. If you still think it's invasive or rare, you can email the city anyway.";
 }
 
 // The plant's name for the report, like "Garlic mustard (Alliaria petiolata)". A group lists all its kinds.
@@ -708,20 +713,69 @@ function plantNameForReport(plant) {
   return `${plant.commonName}, one of: ` + groupMembers(plant).map((kind) => `${kind.commonName} (${kind.scientificName})`).join(", ");
 }
 
-// The details to copy into a DNR report: the plant, how we know, where it is, and the date.
+// "invasive", "endangered" or "threatened": what kind of plant this report is about.
+function kindOfPlant() {
+  if (!decision || !decision.plant) return "invasive or rare"; // the AI couldn't match it to our lists
+  return isSecretSpot() ? decision.plant.category : "invasive";
+}
+
+// The details for the city: the plant, how we know, where it is, and the date.
 function reportDetails() {
   const { kind, guess, plant } = decision || {};
   const name = plant ? plantNameForReport(plant) : guess ? `Not sure. AI's best guess: ${guess.commonName} (${guess.scientificName})` : "Not sure";
   const how = kind === "known" ? "I recognized it" : guess ? `Pl@ntNet AI guess, ${percent(guess.score)} sure` : "The AI couldn't tell";
-  const kindOfPlant = isSecretSpot() ? plant.category : "invasive";
-  const lines = [`Possible ${kindOfPlant} plant: ${name}`, "How I know: " + how];
+  const lines = [`Possible ${kindOfPlant()} plant: ${name}`, "How I know: " + how];
   if (plantLocation) {
     const { lat, lon, source } = plantLocation;
     lines.push(`Where: ${lat.toFixed(5)}, ${lon.toFixed(5)} (${LOCATION_SOURCE_WORDS[source]})`);
-    if (!isSecretSpot()) lines.push("Map: " + mapLink()); // endangered plant spots stay secret
+    lines.push("Map: " + mapLink());
   }
   lines.push("Date: " + new Date().toLocaleDateString("en-US", { dateStyle: "medium" }));
   return lines.join("\n");
+}
+
+// The email's subject line, like "Plant report: Garlic mustard (possible invasive plant)".
+function emailSubject() {
+  const plant = decision && decision.plant;
+  return `Plant report: ${plant ? plant.commonName : "a plant I'm not sure about"} (possible ${kindOfPlant()} plant)`;
+}
+
+// The email's message: a hello, the details, a reminder to add the photo, and a secret-spot note for endangered plants.
+function emailBody() {
+  const lines = ["Hello,", "", "I found a plant in Sun Prairie that may need your help.", "", ...reportDetails().split("\n"), ""];
+  if (isSecretSpot()) lines.push("This plant is protected by law. Please keep this spot secret.", "");
+  lines.push("Photo: (attach your photo before you tap Send)", "", "Thank you!", "Sent from the Protect Our Sun Prairie Parks app");
+  return lines.join("\r\n");
+}
+
+// Ask the plant helper for the city's email address (once). It answers { email: "..." }.
+async function getCityEmail() {
+  if (cityEmail) return cityEmail;
+  const response = await fetch(HELPER_URL + "/email");
+  if (!response.ok) throw Object.assign(new Error("No city email"), { status: response.status });
+  const { email } = await response.json();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email || "")) throw new Error("That isn't an email address");
+  return (cityEmail = email);
+}
+
+// "Email the city": open the person's own email app with everything filled in. They add the photo and tap Send.
+async function emailCity() {
+  const problem = document.getElementById("email-problem");
+  try {
+    const to = await getCityEmail();
+    location.href = `mailto:${to}?subject=${encodeURIComponent(emailSubject())}&body=${encodeURIComponent(emailBody())}`;
+  } catch (error) {
+    problem.textContent = emailProblemWords(error);
+    problem.hidden = false;
+  }
+}
+
+// Turn an email problem into plain words.
+function emailProblemWords(error) {
+  if (error.status === 403) return `This website isn't allowed to use the plant helper yet. An adult needs to add "${location.origin}" to ALLOWED_SITES (see README).`;
+  if (error.status === 500) return "The plant helper doesn't have the city's email address yet. An adult needs to add CITY_EMAIL (see README).";
+  if (!navigator.onLine) return "No internet. Tap Copy details and send them to the city later.";
+  return "We couldn't get the city's email address right now. Tap Copy details, or try again in a minute.";
 }
 
 // A link to the plant's spot on OpenStreetMap.
@@ -730,7 +784,7 @@ function mapLink() {
   return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=18/${lat}/${lon}`;
 }
 
-// Copy the details so they can be pasted into the DNR's report.
+// Copy the details, in case the email app doesn't open.
 async function copyDetails() {
   const button = document.getElementById("copy-button");
   try {
