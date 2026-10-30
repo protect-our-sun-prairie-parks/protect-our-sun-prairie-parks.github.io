@@ -1,5 +1,5 @@
 // ============================================================
-// Protect Our WI Parks
+// Protect Our Sun Prairie Parks
 // Sections: 1 Screens and paths · 2 Buttons · 3 Plant pages · 4 Photo · 5 Location
 //           6 Plant lists · 7 Plant ID · 8 Result · 9 Report · 10 Start
 // ============================================================
@@ -60,7 +60,6 @@ function openAbout() {
 
 // Hook up the buttons that aren't Next or Back.
 function setUpButtons() {
-  document.getElementById("about-button").addEventListener("click", openAbout);
   document.getElementById("home-about").addEventListener("click", openAbout);
   document.getElementById("open-plant-list").addEventListener("click", () => openList("plant-list"));
   document.getElementById("open-endangered-list").addEventListener("click", () => openList("endangered-list"));

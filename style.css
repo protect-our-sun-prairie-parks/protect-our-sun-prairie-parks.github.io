@@ -46,15 +46,6 @@ header h1 {
   font-size: 20px;
 }
 
-/* The round ℹ️ button in the header. */
-.icon-button {
-  min-height: 48px;
-  width: 48px;
-  background: none;
-  border: none;
-  font-size: 26px;
-}
-
 /* Keep content a comfy width, even on a big screen, and fill the phone's height. */
 main {
   flex: 1;
@@ -627,7 +618,7 @@ dialog p {
 }
 
 
-/* Narrow phones: a shorter title and slimmer icons, so the header stays on one or two lines. */
+/* Narrow phones: a shorter title, so the header stays on one or two lines. */
 @media (max-width: 430px) {
   .wide-only {
     display: none;
@@ -635,11 +626,6 @@ dialog p {
 
   header {
     gap: 4px;
-  }
-
-  .icon-button {
-    width: 40px;
-    font-size: 22px;
   }
 }
 
