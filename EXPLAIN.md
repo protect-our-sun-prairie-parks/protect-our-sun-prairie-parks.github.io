@@ -82,6 +82,12 @@ The city of Sun Prairie asked for it. The city takes care of the parks, so it ca
 **Why doesn't the app send the email by itself?**
 If it did, the city could get emails from every practice run and every wrong guess. Instead, the app opens **your** email app with everything filled in. You check it, add your photo, and decide whether to send it.
 
+We looked at having the app send the email for us, so the photo would be attached automatically. We decided not to, for now:
+- We'd need to buy our own web address, because email services only send to anyone from an address you own.
+- We'd need another secret key, for the email service.
+- Spammers could use our helper to flood the city's inbox.
+- The city couldn't write back to the person who found the plant. With your own email app, it can.
+
 **Why can't the app attach the photo?**
 Email links can fill in the address, subject and message, but they can't attach a file. So the screen and the email both remind you to attach your photo.
 
@@ -95,7 +101,7 @@ More people learn what invasive and endangered plants look like, from the plant 
 - Add more plants to the list (the law lists over 100!)
 - Figure out the county, so we can say "prohibited" or "restricted" exactly
 - Work fully offline, even after the phone closes the app
-- Attach the photo to the city email automatically (that would need a server to send the email)
+- Attach the photo to the city email automatically (that would need an email service, our own web address, and limits so spammers can't use it)
 - Use our own team photos on the plant pages
 - Make a version for other cities, using their own plant lists and email address
 - Work in other states, using their invasive plant lists
