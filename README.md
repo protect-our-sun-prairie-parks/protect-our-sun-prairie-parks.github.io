@@ -155,6 +155,7 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
 ## Reporting (the last screen)
 
 Reports go to the city of Sun Prairie by email, because the city asked for that. The app never sends anything by itself: it opens the person's **own email app** with the report filled in, and they decide whether to send it.
+- **Why not send it automatically?** We looked at it (October 2026) and kept the email app for now. Sending from the helper would need an email service like Resend, plus its key as another Cloudflare secret. It would also need a team-owned domain (about $10–15 a year), because without one Resend only sends to the address you signed up with. It could let spammers flood the city's inbox unless we add limits. And the city couldn't reply to the person. The upside would be attaching the photo for the person automatically.
 - **The details:** the plant (common + scientific name), how they know (picked from the list, or the AI's guess and how sure), latitude/longitude with a map link, and the date. **📋 Copy details** copies exactly what's shown, in case the email app doesn't open.
 - **✉️ Email the city** asks the plant helper for the city's address (`CITY_EMAIL` in Cloudflare), then opens a `mailto:` link. The email has:
   - **Subject:** like `Plant report: Garlic mustard (possible invasive plant)`
