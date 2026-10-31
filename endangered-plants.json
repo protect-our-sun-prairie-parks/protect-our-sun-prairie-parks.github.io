@@ -1,7 +1,7 @@
 {
   "source": "Wisconsin Administrative Code NR 27.03 (Endangered and threatened species), Register November 2024 No. 827",
   "sourceUrl": "https://docs.legis.wisconsin.gov/code/admin_code/nr/001/27/03",
-  "note": "Plants that NR 27 lists only as a variety or subspecies are left out, because the plant AI can't tell varieties apart.",
+  "note": "Plants that NR 27 lists only as a variety or subspecies are left out, because the plant AI can't tell varieties apart. Only plants that the DNR's Natural Heritage Inventory lists for our county are kept.",
   "plants": [
     {
       "scientificName": "Cypripedium candidum",
@@ -15,19 +15,6 @@
       "photo": "photos/white-ladys-slipper.jpg",
       "photoCredit": "Photo: Jason Sturner, CC BY 2.0, Wikimedia Commons",
       "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Cypripedium_candidum_-_Flickr_003_(1).jpg"
-    },
-    {
-      "scientificName": "Silene virginica",
-      "otherNames": [],
-      "commonName": "Fire pink",
-      "category": "endangered",
-      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8744",
-      "frontPage": 2,
-      "lookFor": "Bright red flowers with 5 narrow petals, each with a small notch at the tip, on sticky, hairy stems 1 to 3 feet tall. It blooms from late May to early July.",
-      "why": "It's one of the rarest plants in Wisconsin. It grows in only a few oak woods.",
-      "photo": "photos/fire-pink.jpg",
-      "photoCredit": "Photo: Jason Hollinger, CC BY 2.0, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Silene_virginica_JH.jpg"
     },
     {
       "scientificName": "Camassia scilloides",
@@ -56,19 +43,6 @@
       "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Purple_Milkweed_-_Flickr_-_treegrow.jpg"
     },
     {
-      "scientificName": "Iris lacustris",
-      "otherNames": [],
-      "commonName": "Dwarf lake iris",
-      "category": "threatened",
-      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8966",
-      "frontPage": 5,
-      "lookFor": "A tiny iris, only 2 to 6 inches tall, with violet-blue flowers about 2 inches wide. It grows near Lake Michigan and blooms from May to early July.",
-      "why": "It grows only near the Great Lakes, nowhere else in the world. It's threatened in the whole country, too.",
-      "photo": "photos/dwarf-lake-iris.jpg",
-      "photoCredit": "Photo: Joel Trick, U.S. Fish and Wildlife Service, public domain, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Iris_lacustris_fws.jpg"
-    },
-    {
       "scientificName": "Platanthera leucophaea",
       "otherNames": ["Habenaria leucophaea"],
       "commonName": "Eastern prairie fringed orchid",
@@ -80,19 +54,6 @@
       "photo": "photos/prairie-fringed-orchid.jpg",
       "photoCredit": "Photo: Mike Redmer, U.S. Fish and Wildlife Service, public domain, Wikimedia Commons",
       "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Platanthera_leucophaea.jpg"
-    },
-    {
-      "scientificName": "Trillium nivale",
-      "otherNames": [],
-      "commonName": "Snow trillium",
-      "category": "threatened",
-      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8978",
-      "frontPage": 7,
-      "lookFor": "A tiny trillium, only 3 to 6 inches tall, with 3 white petals and 3 leaves. It's one of the first spring flowers, blooming from late March to April.",
-      "why": "It grows in only some hardwood forests, often near rivers and streams.",
-      "photo": "photos/snow-trillium.jpg",
-      "photoCredit": "Photo: Thomas G. Barnes, U.S. Fish and Wildlife Service, public domain, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Trillium_nivale_FWS-1.jpg"
     },
     {
       "scientificName": "Ruellia humilis",
@@ -121,32 +82,6 @@
       "photoCreditUrl": "https://www.inaturalist.org/photos/377768660"
     },
     {
-      "scientificName": "Opuntia fragilis",
-      "otherNames": [],
-      "commonName": "Brittle prickly pear",
-      "category": "threatened",
-      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8740",
-      "frontPage": 10,
-      "lookFor": "A small, low cactus! Its short pads break off easily, and it has sharp, barbed spines. It has yellow-green flowers in June and July.",
-      "why": "It only grows in a few dry spots in Wisconsin: thin soil over rock, and sandy prairies.",
-      "photo": "photos/brittle-prickly-pear.jpg",
-      "photoCredit": "Photo: Thayne Tuason, CC BY 4.0, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Opuntia-fragilis_8973105385_o_2.jpg"
-    },
-    {
-      "scientificName": "Cirsium pitcheri",
-      "otherNames": [],
-      "commonName": "Dune thistle",
-      "category": "threatened",
-      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8688",
-      "frontPage": 11,
-      "lookFor": "A silvery-white, fuzzy thistle 1 to 3 feet tall on Lake Michigan sand dunes, with skinny, deeply cut leaves, weak spines and pale pink to white flowers. Also called Pitcher's thistle.",
-      "why": "It only grows on sand dunes by the Great Lakes. Not every thistle is a weed: this native one is protected!",
-      "photo": "photos/dune-thistle.jpg",
-      "photoCredit": "Photo: Rob Routledge, Sault College, Bugwood.org, CC BY 3.0, Wikimedia Commons",
-      "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Cirsium_pitcheri_InsectImages_5515467_(cropped).jpg"
-    },
-    {
       "scientificName": "Lespedeza leptostachya",
       "otherNames": [],
       "commonName": "Prairie bush clover",
@@ -160,225 +95,9 @@
       "photoCreditUrl": "https://commons.wikimedia.org/wiki/File:Lespedeza_leptostachya_23604104.jpg"
     },
     {
-      "scientificName": "Potamogeton confervoides",
-      "otherNames": [],
-      "commonName": "Algae-leaved pondweed",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Astragalus alpinus",
-      "otherNames": [],
-      "commonName": "Alpine milk vetch",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Listera auriculata",
-      "otherNames": ["Neottia auriculata"],
-      "commonName": "Auricled twayblade",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Eleocharis rostellata",
-      "otherNames": [],
-      "commonName": "Beaked spike-rush",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Carex concinna",
-      "otherNames": [],
-      "commonName": "Beautiful sedge",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Lesquerella ludoviciana",
-      "otherNames": ["Physaria ludoviciana"],
-      "commonName": "Bladderpod",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Fraxinus quadrangulata",
-      "otherNames": [],
-      "commonName": "Blue ash",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Solidago caesia",
-      "otherNames": [],
-      "commonName": "Blue-stemmed goldenrod",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Juncus stygius",
-      "otherNames": [],
-      "commonName": "Bog rush",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Polystichum braunii",
-      "otherNames": [],
-      "commonName": "Braun's holly fern",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Listera convallarioides",
-      "otherNames": ["Neottia convallarioides"],
-      "commonName": "Broad-leaved twayblade",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Catabrosa aquatica",
-      "otherNames": [],
-      "commonName": "Brook grass",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Pinguicula vulgaris",
-      "otherNames": [],
-      "commonName": "Butterwort",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Calypso bulbosa",
-      "otherNames": [],
-      "commonName": "Calypso orchid",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Carex careyana",
-      "otherNames": [],
-      "commonName": "Carey's sedge",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Anemone caroliniana",
-      "otherNames": [],
-      "commonName": "Carolina anemone",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Fimbristylis puberula",
-      "otherNames": [],
-      "commonName": "Chestnut sedge",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Pseudognaphalium saxicola",
-      "otherNames": [],
-      "commonName": "Cliff cudweed",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Orobanche fasciculata",
-      "otherNames": [],
-      "commonName": "Clustered broomrape",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Sparganium glomeratum",
-      "otherNames": [],
-      "commonName": "Clustered bur-reed",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Carex exilis",
-      "otherNames": [],
-      "commonName": "Coast sedge",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Botrychium lunaria",
-      "otherNames": [],
-      "commonName": "Common moonwort",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Astragalus neglectus",
-      "otherNames": [],
-      "commonName": "Cooper's milk vetch",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Vaccinium cespitosum",
-      "otherNames": [],
-      "commonName": "Dwarf bilberry",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Asclepias ovalifolia",
-      "otherNames": [],
-      "commonName": "Dwarf milkweed",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Fuirena pumila",
-      "otherNames": [],
-      "commonName": "Dwarf umbrella sedge",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Carex garberi",
-      "otherNames": [],
-      "commonName": "Elk sedge",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Drosera anglica",
-      "otherNames": [],
-      "commonName": "English sundew",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Triantha glutinosa",
-      "otherNames": [],
-      "commonName": "False asphodel",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Carex lupuliformis",
-      "otherNames": [],
-      "commonName": "False hop sedge",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Caltha natans",
-      "otherNames": [],
-      "commonName": "Floating marsh marigold",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Lonicera involucrata",
-      "otherNames": [],
-      "commonName": "Fly honeysuckle",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Eurybia furcata",
-      "otherNames": [],
-      "commonName": "Forked aster",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Botrychium mormo",
-      "otherNames": [],
-      "commonName": "Goblin fern",
-      "category": "endangered"
-    },
-    {
       "scientificName": "Prenanthes crepidinea",
       "otherNames": ["Nabalus crepidineus"],
       "commonName": "Great white lettuce",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Asplenium trichomanes-ramosum",
-      "otherNames": [],
-      "commonName": "Green spleenwort",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Thaspium chapmanii",
-      "otherNames": [],
-      "commonName": "Hairy meadow parsnip",
       "category": "endangered"
     },
     {
@@ -388,172 +107,17 @@
       "category": "endangered"
     },
     {
-      "scientificName": "Carex formosa",
-      "otherNames": [],
-      "commonName": "Handsome sedge",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Erigenia bulbosa",
-      "otherNames": [],
-      "commonName": "Harbinger-of-spring",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Plantago cordata",
-      "otherNames": [],
-      "commonName": "Heart-leaved plantain",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Tiarella cordifolia",
-      "otherNames": [],
-      "commonName": "Heartleaf foamflower",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Conioselinum chinense",
-      "otherNames": [],
-      "commonName": "Hemlock-parsley",
-      "category": "endangered"
-    },
-    {
       "scientificName": "Cirsium hillii",
       "otherNames": [],
       "commonName": "Hill's thistle",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Draba cana",
-      "otherNames": [],
-      "commonName": "Hoary whitlow-grass",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Carex media",
-      "otherNames": [],
-      "commonName": "Intermediate sedge",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Armoracia lacustris",
-      "otherNames": ["Rorippa aquatica", "Neobeckia aquatica"],
-      "commonName": "Lake cress",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Ranunculus lapponicus",
-      "otherNames": [],
-      "commonName": "Lapland buttercup",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Rhododendron lapponicum",
-      "otherNames": [],
-      "commonName": "Lapland rosebay",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Callitriche heterophylla",
-      "otherNames": [],
-      "commonName": "Large water starwort",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Arenaria macrophylla",
-      "otherNames": ["Moehringia macrophylla"],
-      "commonName": "Large-leaved sandwort",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Carex lenticularis",
-      "otherNames": [],
-      "commonName": "Lenticular sedge",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Drosera linearis",
-      "otherNames": [],
-      "commonName": "Linear-leaved sundew",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Rhynchospora scirpoides",
-      "otherNames": [],
-      "commonName": "Long-beaked baldrush",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Orobanche ludoviciana",
-      "otherNames": [],
-      "commonName": "Louisiana broomrape",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Selaginella selaginoides",
-      "otherNames": [],
-      "commonName": "Low spike-moss",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Parnassia palustris",
-      "otherNames": [],
-      "commonName": "Marsh grass-of-parnassus",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Valeriana uliginosa",
-      "otherNames": [],
-      "commonName": "Marsh valerian",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Muhlenbergia richardsonis",
-      "otherNames": [],
-      "commonName": "Mat muhly",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Carex michauxiana",
-      "otherNames": [],
-      "commonName": "Michaux's sedge",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Vaccinium vitis-idaea",
-      "otherNames": [],
-      "commonName": "Mountain cranberry",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Adoxa moschatellina",
-      "otherNames": [],
-      "commonName": "Muskroot",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Eleocharis nitida",
-      "otherNames": [],
-      "commonName": "Neat spike-rush",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Scleria reticularis",
-      "otherNames": [],
-      "commonName": "Netted nut-rush",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Geocaulon lividum",
-      "otherNames": [],
-      "commonName": "Northern comandra",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Aconitum novaboracense",
-      "otherNames": [],
-      "commonName": "Northern monkshood",
-      "category": "threatened"
+      "category": "threatened",
+      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8687",
+      "frontPage": 5,
+      "lookFor": "A short thistle (1 to 2 feet tall) with one or a few big pink-purple flower heads. It is less prickly than weedy thistles. It blooms in July and August.",
+      "why": "It lives in dry prairies that are disappearing, and people sometimes pull it by mistake because they think it is a weedy thistle.",
+      "photo": "photos/hills-thistle.jpg",
+      "photoCredit": "Photo: Julie McLaughlin, CC BY 4.0, iNaturalist",
+      "photoCreditUrl": "https://www.inaturalist.org/photos/225205389"
     },
     {
       "scientificName": "Diarrhena obovata",
@@ -562,22 +126,17 @@
       "category": "endangered"
     },
     {
-      "scientificName": "Agalinis skinneriana",
-      "otherNames": [],
-      "commonName": "Pale false foxglove",
-      "category": "endangered"
-    },
-    {
       "scientificName": "Echinacea pallida",
       "otherNames": [],
       "commonName": "Pale purple coneflower",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Pterospora andromedea",
-      "otherNames": [],
-      "commonName": "Pine-drops",
-      "category": "endangered"
+      "category": "threatened",
+      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8691",
+      "frontPage": 2,
+      "lookFor": "Pale pink petals that droop straight down from a big, spiky brown center, on a tall stem with long, narrow, hairy leaves. It blooms in June and July.",
+      "why": "It only grows in prairies, and most prairies have been turned into farms and towns.",
+      "photo": "photos/pale-purple-coneflower.jpg",
+      "photoCredit": "Photo: Erica Tava Johnson, CC BY 4.0, iNaturalist",
+      "photoCreditUrl": "https://www.inaturalist.org/photos/397729567"
     },
     {
       "scientificName": "Polygala incarnata",
@@ -586,33 +145,9 @@
       "category": "endangered"
     },
     {
-      "scientificName": "Asplenium pinnatifidum",
-      "otherNames": [],
-      "commonName": "Pinnatifid spleenwort",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Packera indecora",
-      "otherNames": [],
-      "commonName": "Plains ragwort",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Asclepias sullivantii",
-      "otherNames": [],
-      "commonName": "Prairie milkweed",
-      "category": "threatened"
-    },
-    {
       "scientificName": "Botrychium campestre",
       "otherNames": [],
       "commonName": "Prairie moonwort",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Astragalus crassicarpus",
-      "otherNames": [],
-      "commonName": "Prairie plum",
       "category": "endangered"
     },
     {
@@ -622,64 +157,16 @@
       "category": "threatened"
     },
     {
-      "scientificName": "Trisetum melicoides",
-      "otherNames": [],
-      "commonName": "Purple false oats",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Cypripedium arietinum",
-      "otherNames": [],
-      "commonName": "Ram's-head lady's-slipper",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Carex crus-corvi",
-      "otherNames": [],
-      "commonName": "Ravenfoot sedge",
-      "category": "endangered"
-    },
-    {
       "scientificName": "Prenanthes aspera",
       "otherNames": ["Nabalus asper"],
       "commonName": "Rough white lettuce",
       "category": "endangered"
     },
     {
-      "scientificName": "Hypericum sphaerocarpum",
-      "otherNames": [],
-      "commonName": "Round-fruited St. John's wort",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Amerorchis rotundifolia",
-      "otherNames": ["Galearis rotundifolia", "Orchis rotundifolia"],
-      "commonName": "Round-leaved orchis",
-      "category": "threatened"
-    },
-    {
       "scientificName": "Agalinis gattingeri",
       "otherNames": [],
       "commonName": "Roundstem foxglove",
       "category": "threatened"
-    },
-    {
-      "scientificName": "Salix cordata",
-      "otherNames": [],
-      "commonName": "Sand dune willow",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Salix pellita",
-      "otherNames": [],
-      "commonName": "Satiny willow",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Carex schweinitzii",
-      "otherNames": [],
-      "commonName": "Schweinitz's sedge",
-      "category": "endangered"
     },
     {
       "scientificName": "Ranunculus cymbalaria",
@@ -694,70 +181,10 @@
       "category": "threatened"
     },
     {
-      "scientificName": "Lespedeza virginica",
-      "otherNames": [],
-      "commonName": "Slender bush clover",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Pyrola minor",
-      "otherNames": [],
-      "commonName": "Small shinleaf",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Ranunculus gmelinii",
-      "otherNames": [],
-      "commonName": "Small yellow water crowfoot",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Parnassia parviflora",
-      "otherNames": [],
-      "commonName": "Small-flowered grass-of-parnassus",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Melica smithii",
-      "otherNames": [],
-      "commonName": "Smith's melic grass",
-      "category": "endangered"
-    },
-    {
       "scientificName": "Carex laevivaginata",
       "otherNames": [],
       "commonName": "Smooth-sheathed sedge",
       "category": "endangered"
-    },
-    {
-      "scientificName": "Trisetum spicatum",
-      "otherNames": [],
-      "commonName": "Spike trisetum",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Potamogeton pulcher",
-      "otherNames": [],
-      "commonName": "Spotted pondweed",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Eleocharis quadrangulata",
-      "otherNames": [],
-      "commonName": "Square-stem spike-rush",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Viburnum edule",
-      "otherNames": [],
-      "commonName": "Squashberry",
-      "category": "endangered"
-    },
-    {
-      "scientificName": "Petasites sagittatus",
-      "otherNames": [],
-      "commonName": "Sweet colt's-foot",
-      "category": "threatened"
     },
     {
       "scientificName": "Trichophorum cespitosum",
@@ -766,22 +193,17 @@
       "category": "threatened"
     },
     {
-      "scientificName": "Festuca occidentalis",
-      "otherNames": [],
-      "commonName": "Western fescue",
-      "category": "threatened"
-    },
-    {
-      "scientificName": "Eleocharis wolfii",
-      "otherNames": [],
-      "commonName": "Wolf spike-rush",
-      "category": "endangered"
-    },
-    {
       "scientificName": "Asclepias lanuginosa",
       "otherNames": [],
       "commonName": "Woolly milkweed",
-      "category": "threatened"
+      "category": "threatened",
+      "dnrPage": "https://apps.dnr.wi.gov/biodiversity/Home/detail/plants/8682",
+      "frontPage": 7,
+      "lookFor": "A low milkweed, under 1 foot tall, with fuzzy stems and leaves and one round ball of small greenish-yellow flowers at the top. It blooms in early summer.",
+      "why": "It only grows in dry, sandy or gravelly prairies, and very few of those places are left.",
+      "photo": "photos/woolly-milkweed.jpg",
+      "photoCredit": "Photo: Katharine Hogan, CC0, iNaturalist",
+      "photoCreditUrl": "https://www.inaturalist.org/photos/673088131"
     }
   ]
 }

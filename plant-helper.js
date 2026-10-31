@@ -4,10 +4,12 @@
 // Why it exists: the Pl@ntNet key must stay secret. So the key lives here, locked
 // inside Cloudflare. The app sends the photo to this helper, the helper adds the
 // key and asks Pl@ntNet, then passes the answer back. Nothing is saved.
+// It also keeps the city's email address, so the address isn't in our public code.
 //
 // Setup (an adult does this once): see README.md, "Set up the plant helper".
 // Cloudflare settings it needs:
 //   PLANTNET_KEY  (Secret)  the Pl@ntNet key
+//   CITY_EMAIL    (Secret)  the email address that plant reports go to
 //   ALLOWED_SITES (Text)    websites allowed to use this helper, separated by commas,
 //                           like: https://USERNAME.github.io,http://localhost:8000
 // ============================================================
@@ -22,7 +24,7 @@ const MAX_BYTES = 5 * 1024 * 1024;
 function allowHeaders(origin) {
   return {
     "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Methods": "POST",
+    "Access-Control-Allow-Methods": "GET, POST",
     "Access-Control-Allow-Headers": "Content-Type",
     "Content-Type": "application/json",
   };
@@ -34,13 +36,20 @@ function reply(status, message, origin) {
   return new Response(body, { status, headers: allowHeaders(origin) });
 }
 
+// Give the app the city's email address: { "email": "..." }.
+function sendCityEmail(env, origin) {
+  if (!env.CITY_EMAIL) return reply(500, "The plant helper has no city email yet.", origin);
+  return new Response(JSON.stringify({ email: env.CITY_EMAIL }), { status: 200, headers: allowHeaders(origin) });
+}
+
 // Cloudflare runs this every time the app sends a request.
 async function handleRequest(request, env) {
   const origin = request.headers.get("Origin") || "";
-  const allowedSites = (env.ALLOWED_SITES || "").split(",").map((site) => site.trim());
+  const allowedSites = (env.ALLOWED_SITES || "").split(",").map((site) => site.trim()).filter(Boolean); // skip blanks
   // Not on the list? Say no. (The browser may still read this "no", so the app can explain it.)
   if (!allowedSites.includes(origin)) return reply(403, "This website isn't allowed to use the plant helper.", origin);
   if (request.method === "OPTIONS") return reply(204, null, origin); // the browser asking "may I?" first
+  if (request.method === "GET" && new URL(request.url).pathname === "/email") return sendCityEmail(env, origin);
   if (request.method !== "POST") return reply(405, "Send a photo with POST.", origin);
   if (!env.PLANTNET_KEY) return reply(500, "The plant helper has no Pl@ntNet key yet.", origin);
 
