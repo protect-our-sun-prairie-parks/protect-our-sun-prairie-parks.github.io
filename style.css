@@ -7,7 +7,7 @@
   --gray: #5f6b5f;
 }
 
-/* Hidden screens must stay hidden, no matter what other rules say. */
+/* Hidden screens must  stay hidden, no matter what other rules say. */
 [hidden] {
   display: none !important;
 }
