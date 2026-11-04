@@ -587,6 +587,15 @@ dialog {
   overflow-y: auto;
 }
 
+/* The About box has no space on top, so its green top bar (with ✕ Close) sits right at the top edge. */
+#about {
+  padding-top: 0;
+}
+
+#about .page-top {
+  padding-top: 10px;
+}
+
 dialog h3 {
   margin: 10px 0 0;
   font-size: 19px;
