@@ -16,7 +16,7 @@ This app is a copy of our earlier Protect Our WI Parks app, changed to match the
 
 ## How we ship changes
 - Build changes on a feature branch and open a pull request. Merge to `main` (that publishes the live site) only when the user says to deploy, then test the live site.
-- Team members also edit `main` directly on GitHub, so always pull before starting a branch.
+- `main` is protected (since 2026-11-04): changes only arrive by pull request, and the `check` job must pass, for admins too. Team members merge PRs on the GitHub website, so always pull before starting a branch.
 - Every push runs the robot checker (`.github/workflows/check.yml`).
 
 ## Safety and privacy
@@ -29,7 +29,7 @@ This app is a copy of our earlier Protect Our WI Parks app, changed to match the
 
 ## Running it
 - Local: `python3 -m http.server` then open http://localhost:8000
-- Live: https://protect-our-sun-prairie-parks.github.io (GitHub Pages; HTTPS is required for camera and GPS). Pushing to `main` updates it.
+- Live: https://protect-our-sun-prairie-parks.github.io (GitHub Pages; HTTPS is required for camera and GPS). Merging a pull request into `main` updates it.
 - Plant helper: `plant-helper.js` runs on Cloudflare Workers as `sun-prairie-helper`, at https://sun-prairie-helper.wi-invasive-plants.workers.dev. It's separate from the WI app's `plant-helper`; never change that one from here. After changing `plant-helper.js`, redeploy it in Cloudflare.
 
 ## Living docs

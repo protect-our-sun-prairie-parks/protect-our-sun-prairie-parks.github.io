@@ -49,7 +49,7 @@ Each screen shows its step, like "Step 1 of 2" on the know-it path or "Step 1 of
 
 ## Making changes on GitHub (no laptop setup needed)
 
-Team members can change the app from **any computer or Chromebook**, right on the GitHub website. When you save a change, GitHub republishes the live site in about a minute.
+Team members can change the app from **any computer or Chromebook**, right on the GitHub website. 🔒 `main` (the live site) is protected: nobody can change it directly. Every change goes through a **pull request** (a "please add my change" request), and it can only be added after the robot checker shows ✅. Once a pull request is merged, GitHub republishes the live site in about a minute.
 
 **Before you start (once):**
 1. Get a GitHub account. ⚠️ GitHub accounts are for people **13 and older**. Pick a username **without your real name**, because it shows publicly next to every change.
@@ -59,23 +59,25 @@ Team members can change the app from **any computer or Chromebook**, right on th
 **Change one file:**
 1. Open our code on GitHub (the address is in "Our live setup") and click the file (for example `invasive-plants.json`).
 2. Click the ✏️ **pencil**, make your change, then click **Commit changes…**.
-3. Write a short message that says what you changed (example: "Add cypress spurge"), then click **Commit changes**.
+3. Write a short message that says what you changed (example: "Add cypress spurge"). GitHub will say you can't commit to `main`. Pick **Create a new branch for this commit and start a pull request**, then click **Propose changes**.
+4. Click **Create pull request**. Wait for the robot checker's ✅ on the pull request page.
+5. When an owner says it's ready to go live, click **Merge pull request** → **Confirm merge**. If the checker shows ❌, the merge button stays locked until you fix the problem.
 
 **Changed `app.js` or `style.css`?** In `index.html`, add 1 to the version number in **both** `style.css?v=` and `app.js?v=` (for example, `v=4` becomes `v=5` in both places). That makes phones download the new files instead of reusing old saved copies. The robot checker tells you if the two numbers don't match.
 
-**Change several files at once:** on the repository page, press the **`.`** key. A full code editor opens in your browser. When you're done, use the **Source Control** panel on the left to commit.
+**Change several files at once:** on the repository page, press the **`.`** key. A full code editor opens in your browser. When you're done, use the **Source Control** panel on the left to commit to a **new branch** (not `main`), then open a pull request on GitHub.
 
 **Change a plant's photo:** follow the photo rules in "The plant pages" below (use a screenshot, so there's no hidden location), then open the `photos` folder → **Add file → Upload files**, and point the plant's `photo` at it in `invasive-plants.json` (or `endangered-plants.json`).
 
 **Check your change:**
-- The **robot checker** runs on every change. Open the **Actions** tab: ✅ means all good. ❌ means something is broken. Click it to see the problem in plain words, like "Garlic mustard: category must be one of…" or "This file is broken (often a missing comma) … line 8 column 7".
+- The **robot checker** runs on every change. Look at your pull request (or open the **Actions** tab): ✅ means all good. ❌ means something is broken. Click it to see the problem in plain words, like "Garlic mustard: category must be one of…" or "This file is broken (often a missing comma) … line 8 column 7".
 - After about 1–2 minutes, reload the app (its address is in "Our live setup") on your phone and try it.
 
 **Undo a mistake:** every change is saved.
 1. Open the file and click **History**.
 2. Find the change from **before** your mistake. On the right of it are three small icons. Click the **middle** one, **View code at this point**. (Not the `<>` icon: that one shows the whole project.)
 3. Click **Raw**, then select all and copy.
-4. Open the file again (the newest version), click the ✏️ pencil, select all, paste, and commit with a message like "Undo my last change".
+4. Open the file again (the newest version), click the ✏️ pencil, select all, paste, and commit with a message like "Undo my last change". Like any change, this goes through a pull request.
 
 Not sure what broke? Ask an adult; they can put any file back exactly as it was.
 
