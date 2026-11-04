@@ -1,6 +1,6 @@
 # Protect Our Sun Prairie Parks
 
-A phone-friendly web app for a FIRST LEGO League Innovation Project, made for the city of Sun Prairie, Wisconsin. It started as a copy of our earlier app, Protect Our WI Parks, and was changed to match the city's feedback. The front page says **"Watch for these plants in Sun Prairie!"** and has three big buttons:
+A phone-friendly web app for a FIRST LEGO League Innovation Project, made for the city of Sun Prairie, Wisconsin. It started as a copy of our earlier app, Protect Our WI Parks, and was changed to match the city's feedback. The front page says **"Watch for these plants!"** and has three big buttons:
 - **🌿 Invasive plants:** 16 invasive plants that are common around Sun Prairie (some are groups of look-alike plants), with photos and tips on how to spot them. Spot one? Report it.
 - **🌸 Endangered plants:** 10 endangered and threatened plants that Wisconsin law protects and the DNR lists for our county. Look, don't pick, and report it.
 - **📷 Not sure what it is?** Take a photo. The Pl@ntNet AI identifies it, and we check both lists.
@@ -35,7 +35,7 @@ Two things are stored **only** in Cloudflare, as secrets of the `sun-prairie-hel
 
 | Screen | What you see | What you do |
 |---|---|---|
-| Front page | **"Watch for these plants in Sun Prairie!"** and three big choices: **🌿 Invasive plants**, **🌸 Endangered plants** and **📷 Not sure what it is?** The green header stays at the top while you scroll | Tap the choice that fits. **How does this app work?** at the bottom opens the About box. |
+| Front page | **"Watch for these plants!"** and three big choices: **🌿 Invasive plants**, **🌸 Endangered plants** and **📷 Not sure what it is?** The green header stays at the top while you scroll | Tap the choice that fits. **How does this app work?** at the bottom opens the About box. |
 | Endangered plants *(pop-up page)* | 10 small photo tiles. Each card has a pink **Endangered** or teal **Threatened** label and says **🚫 Don't pick it or dig it up. It's protected by law.** | Tap a tile to see how to spot it and why it needs help, then **📍 I found this: report it**. At the bottom: for a rare plant that's not here, use **Not sure what it is?** or the DNR's rare plant form, plus a link to the full state list. |
 | Invasive plants *(pop-up page)* | 16 small photo tiles, 3 across. ⚠️ marks plants that are dangerous to touch. (Prohibited plants used to have a red border; the team removed it. The card's label still says **🚨 Prohibited**.) | Tap a tile to open its **pop-out card**: big photo, label, how to spot it, why it's a problem, any **Don't touch!** warning, and a "More about it" link. A **group** card (like bush honeysuckles) lists each kind with its own label and link. Tap **📍 I found this: report it**. **✕ Close** goes back to the front page. |
 | Take a photo *(not-sure path only)* | **📷 Take photo** / **🖼️ My photos** | Take or pick a clear, close photo. |
@@ -45,7 +45,7 @@ Two things are stored **only** in Cloudflare, as secrets of the `sun-prairie-hel
 
 Each screen shows its step, like "Step 1 of 2" on the know-it path or "Step 1 of 4" on the photo path.
 
-**How does this app work?** (at the bottom of the front page) opens the **About** box: how to use the app, why the AI can be wrong, staying safe, where photos and locations go, emailing the city, and all sources and photo credits. (The city asked us to remove the ℹ️ button that used to be in the top right.)
+**How does this app work?** (at the bottom of the front page) opens the **About** box: how to use the app, why the AI can be wrong, staying safe, where photos and locations go, emailing the city, and all sources and photo credits. To close it, tap **✕ Close** in the green bar at the top (it stays there while you scroll) or **Close** at the very bottom. (The city asked us to remove the ℹ️ button that used to be in the top right.)
 
 ## Making changes on GitHub (no laptop setup needed)
 

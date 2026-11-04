@@ -12,7 +12,7 @@ We first built **Protect Our WI Parks** for all of Wisconsin. Then we showed it 
 - The name says **Sun Prairie** instead of **WI**.
 - The plant lists only have plants that are **common around Sun Prairie** (invasive) or that the DNR lists for **our county** (endangered).
 - Reports are **emailed to the city** instead of going to the DNR.
-- The ℹ️ button is gone, but **How does this app work?** is still there.
+- The ℹ️ button is gone, but **How does this app work?** is still there. It now has a **✕ Close** button at the top, so you don't have to scroll all the way down to close it.
 
 Our app's front page says **"Watch for these plants in Sun Prairie!"** and has three big buttons: **🌿 Invasive plants** (16 cards), **🌸 Endangered plants** (10 protected plants), and **📷 Not sure what it is?** Each plant has a photo and tips on how to spot it. Some invasive cards are **groups** of look-alike plants, like the bush honeysuckles.
 
