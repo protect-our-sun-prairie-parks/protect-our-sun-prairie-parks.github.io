@@ -110,7 +110,10 @@ More people learn what invasive and endangered plants look like, from the plant 
 Our code is public on GitHub, so the key can't go there, because anyone could copy it. Instead, the key is locked inside our plant helper on Cloudflare. Phones never see it. The helper only helps our own website, and only sends photos to Pl@ntNet. If someone tries to misuse it, the worst that can happen is using up the day's 500 free checks. No money is involved, and the key stays secret.
 
 **Bonus: How do you change the app?**
-Right on the GitHub website, from any computer. We click a file, click the pencil, make the change, and save. A robot checks our work for mistakes, and the live app updates by itself in about a minute.
+Right on the GitHub website, from any computer. We click a file, click the pencil, and make the change. GitHub turns it into a **pull request**, which is like asking "can my change go in?". A robot checks our work for mistakes, and only when it says ✅ can we add the change to the live app. Then the app updates by itself in about a minute.
+
+**Bonus: Your code is public. Can't anyone change it?**
+No. Anyone can *read* our code (that's how free websites on GitHub work), but only our team can change it. Even we can't change the live app directly: every change has to pass the robot checker first. And our secrets (the AI key and the city's email address) aren't in the code at all, so there's nothing secret to steal from it.
 
 **Bonus: Where do the plant photos come from?**
 They're real photos from Wikimedia Commons and iNaturalist that photographers shared for anyone to use. We credit each photographer in the app's About box (tap **How does this app work?**), and we removed hidden data (like GPS) from the photos. For endangered plants, we only picked photos that don't show where in Wisconsin the plant grows.
