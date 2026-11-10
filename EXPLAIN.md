@@ -92,7 +92,7 @@ We looked at having the app send the email for us, so the photo would be attache
 Email links can fill in the address, subject and message, but they can't attach a file. So the screen and the email both remind you to attach your photo.
 
 **Where is the city's email address? Why isn't it in your code?**
-Our code is public, and people sometimes collect email addresses from public code to send spam. So we keep it in our plant helper on Cloudflare, like the AI key. The app asks the helper for it when you tap **Email the city**. It's not a big secret: once your email app opens, you can see it in the "To" line. But it's not sitting in our code, and the team can change it (from our test address to the city's real one) without changing any code.
+Our code is public, and people sometimes collect email addresses from public code to send spam. So we keep it in our plant helper on Cloudflare, like the AI key. The app asks the helper for it when you tap **Email the city**. It's not a big secret: once your email app opens, you can see it in the "To" line. But it's not sitting in our code, and the team can change it without changing any code. That's how we switched from our test address to the city's real parks address.
 
 **How does this help the city?**
 More people learn what invasive and endangered plants look like, from the plant pages. When someone spots one, they can email the city with the exact location in a couple of taps. The city gets better reports, the most dangerous invasive plants (like giant hogweed) are clearly marked, and endangered plant emails remind the city to keep the spot secret.

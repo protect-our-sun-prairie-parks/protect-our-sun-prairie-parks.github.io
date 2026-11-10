@@ -21,7 +21,7 @@ This app is a copy of our earlier Protect Our WI Parks app, changed to match the
 
 ## Safety and privacy
 - This repo will be PUBLIC (free GitHub Pages hosting). Never put people's names, school, team name, addresses, or anyone's location in code, comments, commits, or sample data. The city's name (Sun Prairie) is fine: the city asked for it.
-- Never put an email address in the repo. The city's address (a team test address for now) lives only in Cloudflare, as the `CITY_EMAIL` secret of the `sun-prairie-helper` worker. The app gets it from the helper's `/email` route.
+- Never put an email address in the repo. The city's address (the city's real parks department address since 2026-11-09) lives only in Cloudflare, as the `CITY_EMAIL` secret of the `sun-prairie-helper` worker. The app gets it from the helper's `/email` route.
 - Never commit API keys. The Pl@ntNet key lives only in Cloudflare, as the `PLANTNET_KEY` secret of the `sun-prairie-helper` worker. Explain where the key lives and its risk.
 - Endangered plant spots are secret. Never put where an endangered plant grows anywhere in the repo (the endangered list may only say the DNR lists a plant for our county, which is public). Only use photos whose source page doesn't name a Wisconsin location. On screen, endangered reports have no map link and say "Keep the spot secret"; the email to the city includes the spot and asks the city to keep it secret.
 - Photos must be CC0, CC BY or public domain (no CC BY-SA), credited, with hidden data (EXIF/GPS) removed.

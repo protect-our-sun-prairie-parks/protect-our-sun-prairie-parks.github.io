@@ -29,7 +29,7 @@ The report screen shows the plant and the exact spot. **✉️ Email the city** 
 
 The plant helper's address says `wi-invasive-plants`: that's the name of our Cloudflare account, which we share with Protect Our WI Parks (it has its own helper, `plant-helper`). The two apps' helpers are separate, so changing one never breaks the other.
 
-Two things are stored **only** in Cloudflare, as secrets of the `sun-prairie-helper` worker: the Pl@ntNet key (`PLANTNET_KEY`) and the city's email address (`CITY_EMAIL`). Neither is in this code. `ALLOWED_SITES` is `https://protect-our-sun-prairie-parks.github.io,http://localhost:8000`.
+Two things are stored **only** in Cloudflare, as secrets of the `sun-prairie-helper` worker: the Pl@ntNet key (`PLANTNET_KEY`) and the city's email address (`CITY_EMAIL`). Since November 2026, reports go to the city's real parks department address (before that, a team test address). Neither is in this code. `ALLOWED_SITES` is `https://protect-our-sun-prairie-parks.github.io,http://localhost:8000`.
 
 ## Using the app
 
@@ -131,7 +131,7 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
 3. Click **Edit code**, delete everything, paste in all of `plant-helper.js`, and click **Deploy**.
 4. Open the worker's **Settings → Variables and Secrets** and add three:
    - Type **Secret**, name `PLANTNET_KEY`, value: your Pl@ntNet key
-   - Type **Secret**, name `CITY_EMAIL`, value: the email address plant reports should go to (for testing, a team test address; later, the city's real address)
+   - Type **Secret**, name `CITY_EMAIL`, value: the email address plant reports should go to (the city's parks department)
    - Type **Text**, name `ALLOWED_SITES`, value: `https://USERNAME.github.io,http://localhost:8000`
    
    Click **Deploy** (or **Add variable and deploy**). ⚠️ **Save version** alone does *not* turn a setting on: the helper keeps acting as if it's missing until you deploy.
@@ -144,7 +144,7 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
 ### Updating the plant helper
 `plant-helper.js` on GitHub is just a copy for reading. The one that runs lives in Cloudflare. If you change it, paste the new version into Cloudflare (**Workers & Pages → sun-prairie-helper → Edit code → Deploy**). Your `PLANTNET_KEY`, `CITY_EMAIL` and `ALLOWED_SITES` settings stay as they are.
 
-**To change where reports go** (for example, from the test address to the city's real one), update `CITY_EMAIL` in Cloudflare. No code changes, and every phone picks it up the next time someone opens the app.
+**To change where reports go,** update `CITY_EMAIL` in Cloudflare. No code changes, and every phone picks it up the next time someone opens the app.
 
 ### Where the key lives, and the risk
 - **The key is only inside Cloudflare,** stored as an encrypted secret. It's not in the code, not on GitHub, and not on any phone, and the helper never sends it back.
