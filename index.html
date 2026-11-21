@@ -203,6 +203,8 @@
         <li>Your <strong>location</strong> stays on your phone until you send the email to the city (or open the map link).
           For endangered plants there's no map link on the screen: keep their spots secret and only share them in the email to the city.</li>
         <li>The <strong>map pictures</strong> come from OpenStreetMap, so they can tell roughly which area you're looking at.</li>
+        <li>We <strong>count visits</strong> with Cloudflare Web Analytics, so we can see if the app helps. It counts visits, not people:
+          no cookies, no names, and no locations.</li>
       </ul>
 
       <h3>Emailing the city</h3>
@@ -228,5 +230,9 @@
       <button class="big" value="close">Close</button>
     </form>
   </dialog>
+
+  <!-- Visit counter: Cloudflare Web Analytics counts visits (no cookies, no names, no locations).
+       The token isn't secret: it only tells Cloudflare which website the count is for. -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "WEB_ANALYTICS_TOKEN"}'></script>
 </body>
 </html>
