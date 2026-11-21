@@ -871,6 +871,13 @@ function startOver() {
   showScreen("home");
 }
 
+// Tell the plant helper "someone opened the app", so it can count visits by city, state and country.
+// Only on the live website (not a laptop test), and we don't wait for an answer.
+function countVisit() {
+  if (location.protocol !== "https:") return;
+  fetch(HELPER_URL + "/visit", { method: "POST", keepalive: true }).catch(() => {});
+}
+
 // Get the app ready when the page loads.
 function start() {
   for (const id of ["photo-tip", "location-tip"]) FIRST_TIPS[id] = document.getElementById(id).innerHTML;
@@ -880,6 +887,7 @@ function start() {
   loadInvasiveList();
   loadEndangeredList();
   showScreen("home");
+  countVisit();
 }
 
 start();

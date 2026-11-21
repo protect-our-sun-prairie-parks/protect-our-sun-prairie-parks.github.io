@@ -16,6 +16,7 @@
 //                           like: https://USERNAME.github.io,http://localhost:8000
 //   TURNSTILE_SECRET (Secret) the Turnstile widget's secret key. Until it's added, the human check is skipped.
 //   PHOTO_LIMIT   (Rate limit binding) at most 20 photo checks a minute from one internet address.
+//   VISITS        (D1 database binding) the visit tally: one line per day + city + state + country.
 // ============================================================
 
 // The one place this helper is allowed to send photos.
@@ -74,6 +75,21 @@ async function isHuman(request, env) {
   }
 }
 
+// Count one visit: add 1 to today's line for the visitor's city, state and country.
+// The place is Cloudflare's guess from the internet connection. We never save the internet address itself.
+async function countVisit(request, env, origin) {
+  if (!env.VISITS) return reply(204, null, origin); // the tally isn't set up yet
+  const address = request.headers.get("CF-Connecting-IP") || "unknown";
+  if (env.PHOTO_LIMIT && !(await env.PHOTO_LIMIT.limit({ key: "visit " + address })).success) return reply(204, null, origin);
+  const place = request.cf || {};
+  const day = new Date().toISOString().slice(0, 10); // like 2026-11-21 (world time, UTC)
+  await env.VISITS.prepare(
+    "INSERT INTO visits (day, country, region, city, count) VALUES (?, ?, ?, ?, 1) " +
+    "ON CONFLICT (day, country, region, city) DO UPDATE SET count = count + 1"
+  ).bind(day, place.country || "unknown", place.region || "unknown", place.city || "unknown").run();
+  return reply(204, null, origin);
+}
+
 // Cloudflare runs this every time the app sends a request.
 async function handleRequest(request, env) {
   const origin = request.headers.get("Origin") || "";
@@ -81,7 +97,9 @@ async function handleRequest(request, env) {
   // Not on the list? Say no. (The browser may still read this "no", so the app can explain it.)
   if (!allowedSites.includes(origin)) return reply(403, "This website isn't allowed to use the plant helper.", origin);
   if (request.method === "OPTIONS") return reply(204, null, origin); // the browser asking "may I?" first
-  if (request.method === "GET" && new URL(request.url).pathname === "/email") return sendCityEmail(env, origin);
+  const path = new URL(request.url).pathname;
+  if (request.method === "GET" && path === "/email") return sendCityEmail(env, origin);
+  if (request.method === "POST" && path === "/visit") return countVisit(request, env, origin);
   if (request.method !== "POST") return reply(405, "Send a photo with POST.", origin);
   if (!env.PLANTNET_KEY) return reply(500, "The plant helper has no Pl@ntNet key yet.", origin);
   if (await tooFast(request, env)) return reply(429, "slow down", origin); // the app shows "wait a minute"

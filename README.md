@@ -147,7 +147,7 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
 ### Updating the plant helper
 `plant-helper.js` on GitHub is just a copy for reading. The one that runs lives in Cloudflare. If you change it, paste the new version into Cloudflare (**Workers & Pages → sun-prairie-helper → Edit code → Deploy**). Your settings (`PLANTNET_KEY`, `CITY_EMAIL`, `ALLOWED_SITES`, `TURNSTILE_SECRET`) and the `PHOTO_LIMIT` speed limit stay as they are.
 
-**Adding the speed limit (once, from a laptop):** save this as `wrangler.toml` in a folder *outside* this repo, next to a copy of `plant-helper.js`, then run `npx wrangler deploy` there. `keep_vars` keeps the settings you made on the website.
+**Adding the speed limit and the visit tally (once, from a laptop):** save this as `wrangler.toml` in a folder *outside* this repo, next to a copy of `plant-helper.js`, then run `npx wrangler deploy` there. `keep_vars` keeps the settings you made on the website.
 ```toml
 name = "sun-prairie-helper"
 main = "plant-helper.js"
@@ -158,6 +158,11 @@ keep_vars = true
 name = "PHOTO_LIMIT"
 namespace_id = "1001"
 simple = { limit = 20, period = 60 }
+
+[[d1_databases]]
+binding = "VISITS"
+database_name = "sun-prairie-visits"
+database_id = "5a8efdf3-780f-47e0-b534-9d5655f5b9ce"
 ```
 
 **To change where reports go,** update `CITY_EMAIL` in Cloudflare. No code changes, and every phone picks it up the next time someone opens the app.
@@ -294,7 +299,13 @@ The other 12 plants in `endangered-plants.json` have no card, but the AI still r
 Each library has an `integrity` fingerprint in `index.html`. The browser refuses the file if anyone changed it, so if you upgrade a library, update its fingerprint too. (The visit counter and Turnstile are the exceptions: Cloudflare updates it often, so it can't have a fingerprint. It can't see the photo, the location or the email.)
 
 ### How many people use the app?
-Sun Prairie Parks and Rec put QR codes in some parks, and they open our front page. To see how many visits we get, open **Cloudflare → Analytics & Logs → Web Analytics → protect-our-sun-prairie-parks.github.io**. It shows visits per day and phone vs. computer. It can't tell which park someone was in, or whether they scanned a QR code or typed the address, because all the codes open the same page. (If the city ever makes new codes, give each park its own address, like `…github.io/?park=sheehan`, and we can add a per-park count.)
+Sun Prairie Parks and Rec put QR codes in some parks, and they open our front page. To see how many visits we get, open **Cloudflare → Analytics & Logs → Web Analytics → protect-our-sun-prairie-parks.github.io**. It shows visits per day and phone vs. computer. Web Analytics shows the country only (see the visit tally below for city and state). It can't tell which park someone was in, or whether they scanned a QR code or typed the address, because all the codes open the same page. (If the city ever makes new codes, give each park its own address, like `…github.io/?park=sheehan`, and we can add a per-park count.)
+
+**Visits by city, state and country:** each time the app opens on the live site, it tells the plant helper "someone opened the app". The helper adds 1 to today's line for that visitor's city, state and country in a small Cloudflare database (D1, named `sun-prairie-visits`). The place is Cloudflare's guess from the internet connection, so it's rough: phones on mobile data often show the phone company's city (like Madison or Chicago) instead. Nothing else is saved: no internet address, no device, no name. To see it, open **Cloudflare → Storage & databases → D1 → sun-prairie-visits → Console** and run:
+```sql
+SELECT day, city, region, country, count FROM visits ORDER BY day DESC, count DESC;
+```
+(Days are in world time, UTC, so a visit after 6 p.m. in Wisconsin counts toward the next day.)
 
 The plant helper's **Metrics** page in Cloudflare (Workers & Pages → sun-prairie-helper) also shows how many photo checks and **Email the city** taps there were each day.
 

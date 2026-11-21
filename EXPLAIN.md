@@ -74,7 +74,7 @@ It can be wrong! That's why we always say "**possible** invasive plant" and show
 If you pick a plant from the list, there's no photo at all. If you use the AI, the photo stays on your phone until the AI step. Then a smaller copy goes through our plant helper to Pl@ntNet to be identified. The helper only passes it along and saves nothing (you can read all of its code in `plant-helper.js`). There's no database, so we never keep your photo. Your location stays on your phone until you send the email to the city yourself, or tap **See this spot on a map** (that opens OpenStreetMap at that spot). (Drawing the map means downloading map pictures of your area from OpenStreetMap.)
 
 **How do you know if people use it?**
-Sun Prairie Parks and Rec put QR codes in some parks that open our app. We use Cloudflare Web Analytics to count visits each day. It counts visits, not people: no cookies, no names, and no locations. It's like a clicker counter at a door: it knows how many came in, not who.
+Sun Prairie Parks and Rec put QR codes in some parks that open our app. We use Cloudflare Web Analytics to count visits each day. It counts visits, not people: no cookies, no names, and no locations. It's like a clicker counter at a door: it knows how many came in, not who. Our plant helper also keeps a tally of roughly which city, state and country visits come from (Cloudflare's guess from the internet connection), so we can see if people in Sun Prairie use it. It never saves anyone's exact location.
 
 **Why no login?**
 A login means storing people's names and passwords, and keeping those safe is a big job. Our app doesn't need to know who you are to help find invasive plants, so we left it out. Safer and simpler!
