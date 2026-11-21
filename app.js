@@ -462,14 +462,39 @@ async function shrinkPhoto(file) {
   }
 }
 
+// Cloudflare Turnstile's "site key" for our website. It isn't secret: it just says which website is asking.
+const HUMAN_CHECK_SITE_KEY = "0x4AAAAAAGL4hTuVyLP3IpsR";
+let humanCheckBox = null;      // the Turnstile check, once it's set up
+let humanCheckWaiting = null;  // what to do when the check finishes
+
+// Get a one-time "I'm a real person" pass from Turnstile. Usually invisible; sometimes it asks you to tap a box.
+function getHumanPass() {
+  if (!window.turnstile) return Promise.resolve(""); // it didn't load; the plant helper decides what to do
+  return new Promise((resolve, reject) => {
+    humanCheckWaiting = { resolve, reject };
+    const failed = () => humanCheckWaiting.reject(Object.assign(new Error("Human check failed"), { status: 428 }));
+    if (humanCheckBox === null) {
+      humanCheckBox = turnstile.render("#human-check", { sitekey: HUMAN_CHECK_SITE_KEY, appearance: "interaction-only",
+        execution: "execute", callback: (pass) => humanCheckWaiting.resolve(pass), "error-callback": failed, "timeout-callback": failed });
+    } else {
+      turnstile.reset(humanCheckBox); // each pass works only once
+    }
+    turnstile.execute(humanCheckBox);
+  });
+}
+
 // Send the photo to our plant helper (which asks Pl@ntNet) and get back the top 3 guesses.
 async function askPlantHelper(file) {
   const form = new FormData();
   form.append("images", await shrinkPhoto(file), "plant.jpg");
   form.append("organs", "auto");
-  const response = await fetch(HELPER_URL, { method: "POST", body: form });
+  const headers = { "X-Human-Check": await getHumanPass() };
+  const response = await fetch(HELPER_URL, { method: "POST", headers, body: form });
   if (response.status === 404) return []; // Pl@ntNet says 404 when it finds no plant in the photo
-  if (!response.ok) throw Object.assign(new Error("Pl@ntNet error"), { status: response.status });
+  if (!response.ok) {
+    const answer = await response.json().catch(() => ({}));
+    throw Object.assign(new Error("Pl@ntNet error"), { status: response.status, slowDown: answer.message === "slow down" });
+  }
   const answer = await response.json();
   return answer.results.slice(0, 3).map(simpleGuess);
 }
@@ -484,6 +509,8 @@ function simpleGuess(result) {
 function plantIdErrorWords(error) {
   if (error.status === 403) return `This website isn't allowed to use the plant helper yet. An adult needs to add "${location.origin}" to ALLOWED_SITES (see README).`;
   if (error.status === 401 || error.status === 500) return "The plant helper's key isn't working. An adult needs to check it (see README).";
+  if (error.slowDown) return "Lots of photo checks came from here in the last minute. Wait a minute, then tap Try again.";
+  if (error.status === 428) return "We couldn't check that you're a real person (not a robot). Reload the page and try again.";
   if (error.status === 429) return "We used up today's free plant checks. Try again tomorrow. If you know the plant, go back and pick it from the list.";
   if (error.status === 400 || error.status === 413 || error.status === 415) return "The AI couldn't read this photo. Go back and try a different photo.";
   if (!navigator.onLine) return "No internet. The plant AI needs internet. If you know the plant, go back and pick it from the list.";
