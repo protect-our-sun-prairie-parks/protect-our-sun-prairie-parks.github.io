@@ -41,7 +41,7 @@ Two things are stored **only** in Cloudflare, as secrets of the `sun-prairie-hel
 | Take a photo *(not-sure path only)* | **📷 Take photo** / **🖼️ My photos** | Take or pick a clear, close photo. |
 | Where is the plant? | A map of Wisconsin | Tap **📍 Find me** (GPS), or tap the map. If the photo has GPS saved inside, the pin drops by itself. |
 | What plant is it? *(not-sure path only)* | "Asking the plant AI…", then **⚠️ Possible invasive plant!**, **🌸 Possible endangered plant!** (or threatened), **✅ Not on our invasive or endangered lists**, or **🤔 The AI isn't sure**, plus the AI's top 3 guesses | Read the card, then tap **Next: Report it →**. |
-| Email it to the city | The plant, how you know (you picked it, or the AI's guess and how sure), the exact spot (with a map link in the details), and the date. For an endangered plant: **🤫 Keep the spot secret**, and no clickable map link on the screen | Tap **✉️ Email the city**, attach your photo, and tap Send. **📋 Copy details** is a backup if the email app doesn't open. "Want to tell the state too?" opens the DNR's report page. **🔁 Check another plant** goes back to the front page. |
+| Email it to the city | The plant, how you know (you picked it, or the AI's guess and how sure), the exact spot (with a map link in the details), and the date. For an endangered plant: **🤫 Keep the spot secret**, and no clickable map link on the screen | Tap **✉️ Email the city**, attach your photo, and tap Send. **📋 Copy details** is a backup if the email app doesn't open. "Want to tell the state too?" opens the DNR's report page. If the spot is **outside the Dane County area**, the screen says **Report it to the DNR** instead, and there's no email button. **🔁 Check another plant** goes back to the front page. |
 
 Each screen shows its step, like "Step 1 of 2" on the know-it path or "Step 1 of 4" on the photo path.
 
@@ -135,14 +135,35 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
    - Type **Text**, name `ALLOWED_SITES`, value: `https://USERNAME.github.io,http://localhost:8000`
    
    Click **Deploy** (or **Add variable and deploy**). ⚠️ **Save version** alone does *not* turn a setting on: the helper keeps acting as if it's missing until you deploy.
-5. Copy the helper's address (like `https://plant-helper.YOUR-SUBDOMAIN.workers.dev`).
-6. In `app.js`, find `HELPER_URL` and paste that address in. Because `app.js` changed, add 1 to both version numbers in `index.html` (see "Making changes on GitHub"). Then run `git add .`, `git commit -m "Connect plant helper"` and `git push`.
-7. **Check it:** open the helper's address in a browser. If you see `This website isn't allowed to use the plant helper`, it's running. (A browser address bar isn't on the allowed list, so that "no" is correct.) Then open the app and try a real photo, and tap **Email the city** on a report: your email app should open with the city's address filled in.
+5. **Security checks** (they keep robots from using up our 500 free photo checks a day; see "Security checks" below):
+   - **Human check:** in Cloudflare, open **Turnstile → Add widget**, name it, add our site's hostname (like `USERNAME.github.io`), keep **Managed**, and click **Create**. Put its **Site key** (not secret) in `app.js` as `HUMAN_CHECK_SITE_KEY`. Add its **Secret key** to the helper as type **Secret**, name `TURNSTILE_SECRET`, then **Deploy**.
+   - **Speed limit:** the `PHOTO_LIMIT` rate-limit setting can't be added on the website, so an adult adds it once from a laptop with Cloudflare's `wrangler` tool (see "Updating the plant helper").
+6. Copy the helper's address (like `https://plant-helper.YOUR-SUBDOMAIN.workers.dev`).
+7. In `app.js`, find `HELPER_URL` and paste that address in. Because `app.js` changed, add 1 to both version numbers in `index.html` (see "Making changes on GitHub"). Then run `git add .`, `git commit -m "Connect plant helper"` and `git push`.
+8. **Check it:** open the helper's address in a browser. If you see `This website isn't allowed to use the plant helper`, it's running. (A browser address bar isn't on the allowed list, so that "no" is correct.) Then open the app and try a real photo, and tap **Email the city** on a report: your email app should open with the city's address filled in.
 
 **Good to know:** the helper calls Pl@ntNet from a server, not from a web page, so Pl@ntNet's "Authorized domains" list isn't used. Our helper works with that list empty.
 
 ### Updating the plant helper
-`plant-helper.js` on GitHub is just a copy for reading. The one that runs lives in Cloudflare. If you change it, paste the new version into Cloudflare (**Workers & Pages → sun-prairie-helper → Edit code → Deploy**). Your `PLANTNET_KEY`, `CITY_EMAIL` and `ALLOWED_SITES` settings stay as they are.
+`plant-helper.js` on GitHub is just a copy for reading. The one that runs lives in Cloudflare. If you change it, paste the new version into Cloudflare (**Workers & Pages → sun-prairie-helper → Edit code → Deploy**). Your settings (`PLANTNET_KEY`, `CITY_EMAIL`, `ALLOWED_SITES`, `TURNSTILE_SECRET`) and the `PHOTO_LIMIT` speed limit stay as they are.
+
+**Adding the speed limit and the visit tally (once, from a laptop):** save this as `wrangler.toml` in a folder *outside* this repo, next to a copy of `plant-helper.js`, then run `npx wrangler deploy` there. `keep_vars` keeps the settings you made on the website.
+```toml
+name = "sun-prairie-helper"
+main = "plant-helper.js"
+compatibility_date = "2025-01-01"
+keep_vars = true
+
+[[ratelimits]]
+name = "PHOTO_LIMIT"
+namespace_id = "1001"
+simple = { limit = 20, period = 60 }
+
+[[d1_databases]]
+binding = "VISITS"
+database_name = "sun-prairie-visits"
+database_id = "5a8efdf3-780f-47e0-b534-9d5655f5b9ce"
+```
 
 **To change where reports go,** update `CITY_EMAIL` in Cloudflare. No code changes, and every phone picks it up the next time someone opens the app.
 
@@ -150,15 +171,22 @@ The plant helper is `plant-helper.js`: a tiny program that runs on Cloudflare, n
 - **The key is only inside Cloudflare,** stored as an encrypted secret. It's not in the code, not on GitHub, and not on any phone, and the helper never sends it back.
 - **To change the key,** update `PLANTNET_KEY` in Cloudflare. Every phone keeps working, with nothing to change.
 - **The helper only accepts requests from the websites in `ALLOWED_SITES`**, and only passes photos (up to 5 MB) to Pl@ntNet's identify service. It can't be used for anything else.
-- **Remaining risk:** a determined person could write a program that pretends to be our website and use the helper to identify plants. That uses up our 500 free checks for the day, and then the app says "We used up today's free plant checks." They still can't see the key, and there's no money involved on free plans. For extra protection, an adult can add a Cloudflare rate-limiting rule.
+- **Remaining risk:** a determined person could write a program that pretends to be our website. Two security checks make that hard (see "Security checks" below). Even if one got through, the worst case is using up our 500 free checks for the day; they still can't see the key, and there's no money involved on free plans.
 - **Photos pass through Cloudflare** on their way to Pl@ntNet. The helper doesn't save them (you can read every line of `plant-helper.js`).
 - **The city's email address is kept out of our code, but it isn't truly secret.** The helper gives it to our website so the email app can open, so anyone using the app sees it in their email's "To" line, and a determined person could ask the helper for it. That's fine for a public reporting address. Keeping it in Cloudflare means it isn't in our public code (or search engines), and it can be changed without touching the code.
+
+### Security checks (robots vs. real people)
+Only the **AI photo check** costs us anything (500 free checks a day), so that's what the checks protect. Visits are never blocked or limited, from anywhere in the world.
+- **Human check (Cloudflare Turnstile):** before each photo check, the app gets a one-time "I'm a real person" pass from Turnstile. It's usually invisible; once in a while it shows a box to tap. The helper asks Turnstile if the pass is real (`TURNSTILE_SECRET`) and refuses fakes, so a robot's photo never reaches Pl@ntNet. Until `TURNSTILE_SECRET` is added, the helper skips this check.
+- **Speed limit (`PHOTO_LIMIT`):** at most 20 photo checks a minute from one internet address. A runaway robot gets "Wait a minute" instead of using up the day's checks. (Turnstile and the speed limit only see the internet address for a moment; nothing is saved.)
+- **Emailing the city can't be used by robots:** a real person has to tap Send in their own email app, and only for spots near Sun Prairie.
 
 ## Reporting (the last screen)
 
 Reports go to the city of Sun Prairie by email, because the city asked for that. The app never sends anything by itself: it opens the person's **own email app** with the report filled in, and they decide whether to send it.
 - **Why not send it automatically?** We looked at it (October 2026) and kept the email app for now. Sending from the helper would need an email service like Resend, plus its key as another Cloudflare secret. It would also need a team-owned domain (about $10–15 a year), because without one Resend only sends to the address you signed up with. It could let spammers flood the city's inbox unless we add limits. And the city couldn't reply to the person. The upside would be attaching the photo for the person automatically.
 - **The details:** the plant (common + scientific name), how they know (picked from the list, or the AI's guess and how sure), latitude/longitude with a map link, and the date. **📋 Copy details** copies exactly what's shown, in case the email app doesn't open.
+- **Only spots near Sun Prairie can email the city.** The city only takes care of its own area, so the app checks the plant's spot (from GPS or the map pin) against a box drawn around Dane County (`CITY_AREA` in `app.js`: latitude 42.84 to 43.30, longitude −89.84 to −89.00). Outside the box, the title changes to **Report it to the DNR**, a red note explains why, and the email button is hidden. This also means a bot or someone far away can't use our app to email the city. (The box is a rectangle, so a little of the neighboring counties counts too.)
 - **✉️ Email the city** asks the plant helper for the city's address (`CITY_EMAIL` in Cloudflare), then opens a `mailto:` link. The email has:
   - **Subject:** like `Plant report: Garlic mustard (possible invasive plant)`
   - **Message:** a hello, the details above, "Photo: (attach your photo before you tap Send)", and "Sent from the Protect Our Sun Prairie Parks app". Email links can't attach a photo by themselves, so the screen and the email both remind people to attach it.
@@ -258,6 +286,7 @@ The other 12 plants in `endangered-plants.json` have no card, but the AI still r
 |---|---|---|
 | [Pl@ntNet API](https://my.plantnet.org) | Identifies the plant from the photo | my-api.plantnet.org |
 | [Cloudflare Workers](https://workers.cloudflare.com) | Runs the plant helper that holds the key and the city's email address | cloudflare.com (free plan: 100,000 requests/day) |
+| [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) | Checks that a real person (not a robot) is asking the plant AI | challenges.cloudflare.com |
 | [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) | Counts visits, so we can see if people use the app (for example, from the park QR codes). No cookies, no names, no locations | static.cloudflareinsights.com |
 | [Leaflet](https://leafletjs.com/) 1.9.4 | Draws the map | cdnjs.cloudflare.com |
 | [exifr](https://github.com/MikeKovarik/exifr) 7.1.3 | Reads GPS saved inside photos | cdn.jsdelivr.net |
@@ -267,10 +296,16 @@ The other 12 plants in `endangered-plants.json` have no card, but the AI still r
 | [Minnesota DNR](https://www.dnr.state.mn.us/invasives/terrestrialplants/index.html) | Facts for the 2 plants that aren't in Wisconsin's law (sweet clover, reed canary grass) | links in `invasive-plants.json` |
 | [UW–Madison Renz Lab](https://renzweedscience.cals.wisc.edu/?p=6202), [DNR Natural Heritage Inventory](https://nhiportal.dnr.wi.gov/public/data/county) | Which plants are common (invasive) or recorded (endangered) in our county, to pick the plant cards | not stored in the app |
 
-Each library has an `integrity` fingerprint in `index.html`. The browser refuses the file if anyone changed it, so if you upgrade a library, update its fingerprint too. (The visit counter is the one exception: Cloudflare updates it often, so it can't have a fingerprint. It can't see the photo, the location or the email.)
+Each library has an `integrity` fingerprint in `index.html`. The browser refuses the file if anyone changed it, so if you upgrade a library, update its fingerprint too. (The visit counter and Turnstile are the exceptions: Cloudflare updates it often, so it can't have a fingerprint. It can't see the photo, the location or the email.)
 
 ### How many people use the app?
-Sun Prairie Parks and Rec put QR codes in some parks, and they open our front page. To see how many visits we get, open **Cloudflare → Analytics & Logs → Web Analytics → protect-our-sun-prairie-parks.github.io**. It shows visits per day and phone vs. computer. It can't tell which park someone was in, or whether they scanned a QR code or typed the address, because all the codes open the same page. (If the city ever makes new codes, give each park its own address, like `…github.io/?park=sheehan`, and we can add a per-park count.)
+Sun Prairie Parks and Rec put QR codes in some parks, and they open our front page. To see how many visits we get, open **Cloudflare → Analytics & Logs → Web Analytics → protect-our-sun-prairie-parks.github.io**. It shows visits per day and phone vs. computer. Web Analytics shows the country only (see the visit tally below for city and state). It can't tell which park someone was in, or whether they scanned a QR code or typed the address, because all the codes open the same page. (If the city ever makes new codes, give each park its own address, like `…github.io/?park=sheehan`, and we can add a per-park count.)
+
+**Visits by city, state and country:** each time the app opens on the live site, it tells the plant helper "someone opened the app". The helper adds 1 to today's line for that visitor's city, state and country in a small Cloudflare database (D1, named `sun-prairie-visits`). The place is Cloudflare's guess from the internet connection, so it's rough: phones on mobile data often show the phone company's city (like Madison or Chicago) instead. Nothing else is saved: no internet address, no device, no name. To see it, open **Cloudflare → Storage & databases → D1 → sun-prairie-visits → Console** and run:
+```sql
+SELECT day, city, region, country, count FROM visits ORDER BY day DESC, count DESC;
+```
+(Days are in world time, UTC, so a visit after 6 p.m. in Wisconsin counts toward the next day.)
 
 The plant helper's **Metrics** page in Cloudflare (Workers & Pages → sun-prairie-helper) also shows how many photo checks and **Email the city** taps there were each day.
 

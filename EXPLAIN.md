@@ -74,10 +74,16 @@ It can be wrong! That's why we always say "**possible** invasive plant" and show
 If you pick a plant from the list, there's no photo at all. If you use the AI, the photo stays on your phone until the AI step. Then a smaller copy goes through our plant helper to Pl@ntNet to be identified. The helper only passes it along and saves nothing (you can read all of its code in `plant-helper.js`). There's no database, so we never keep your photo. Your location stays on your phone until you send the email to the city yourself, or tap **See this spot on a map** (that opens OpenStreetMap at that spot). (Drawing the map means downloading map pictures of your area from OpenStreetMap.)
 
 **How do you know if people use it?**
-Sun Prairie Parks and Rec put QR codes in some parks that open our app. We use Cloudflare Web Analytics to count visits each day. It counts visits, not people: no cookies, no names, and no locations. It's like a clicker counter at a door: it knows how many came in, not who.
+Sun Prairie Parks and Rec put QR codes in some parks that open our app. We use Cloudflare Web Analytics to count visits each day. It counts visits, not people: no cookies, no names, and no locations. It's like a clicker counter at a door: it knows how many came in, not who. Our plant helper also keeps a tally of roughly which city, state and country visits come from (Cloudflare's guess from the internet connection), so we can see if people in Sun Prairie use it. It never saves anyone's exact location.
 
 **Why no login?**
 A login means storing people's names and passwords, and keeping those safe is a big job. Our app doesn't need to know who you are to help find invasive plants, so we left it out. Safer and simpler!
+
+**Can anyone anywhere email the city with your app?**
+No. The city only takes care of plants near Sun Prairie, so the app checks where the plant is. If the spot is outside a box we drew around Dane County, the **Email the city** button disappears, and the app tells you to report it to the DNR instead. And the app never sends email by itself: a real person has to tap Send in their own email app, so a robot can't send emails with it.
+
+**How do you stop robots?**
+The plant AI gives us 500 free checks a day, and a robot could use them all up. So before the AI step, Cloudflare Turnstile checks that you're a real person. It's usually invisible, like a guard who waves you through, and only sometimes asks you to tap a box. Our plant helper also has a speed limit: no more than 20 photos a minute from one place. Robots can't email the city either, because a real person has to tap Send.
 
 **Why does the app email the city instead of the DNR?**
 The city of Sun Prairie asked for it. The city takes care of the parks, so it can send people to pull invasive plants and protect rare ones. If you want to tell the state too, there's a small "Want to tell the state too?" link to the DNR's report page.

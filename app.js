@@ -462,14 +462,39 @@ async function shrinkPhoto(file) {
   }
 }
 
+// Cloudflare Turnstile's "site key" for our website. It isn't secret: it just says which website is asking.
+const HUMAN_CHECK_SITE_KEY = "0x4AAAAAAGL4hTuVyLP3IpsR";
+let humanCheckBox = null;      // the Turnstile check, once it's set up
+let humanCheckWaiting = null;  // what to do when the check finishes
+
+// Get a one-time "I'm a real person" pass from Turnstile. Usually invisible; sometimes it asks you to tap a box.
+function getHumanPass() {
+  if (!window.turnstile) return Promise.resolve(""); // it didn't load; the plant helper decides what to do
+  return new Promise((resolve, reject) => {
+    humanCheckWaiting = { resolve, reject };
+    const failed = () => humanCheckWaiting.reject(Object.assign(new Error("Human check failed"), { status: 428 }));
+    if (humanCheckBox === null) {
+      humanCheckBox = turnstile.render("#human-check", { sitekey: HUMAN_CHECK_SITE_KEY, appearance: "interaction-only",
+        execution: "execute", callback: (pass) => humanCheckWaiting.resolve(pass), "error-callback": failed, "timeout-callback": failed });
+    } else {
+      turnstile.reset(humanCheckBox); // each pass works only once
+    }
+    turnstile.execute(humanCheckBox);
+  });
+}
+
 // Send the photo to our plant helper (which asks Pl@ntNet) and get back the top 3 guesses.
 async function askPlantHelper(file) {
   const form = new FormData();
   form.append("images", await shrinkPhoto(file), "plant.jpg");
   form.append("organs", "auto");
-  const response = await fetch(HELPER_URL, { method: "POST", body: form });
+  const headers = { "X-Human-Check": await getHumanPass() };
+  const response = await fetch(HELPER_URL, { method: "POST", headers, body: form });
   if (response.status === 404) return []; // Pl@ntNet says 404 when it finds no plant in the photo
-  if (!response.ok) throw Object.assign(new Error("Pl@ntNet error"), { status: response.status });
+  if (!response.ok) {
+    const answer = await response.json().catch(() => ({}));
+    throw Object.assign(new Error("Pl@ntNet error"), { status: response.status, slowDown: answer.message === "slow down" });
+  }
   const answer = await response.json();
   return answer.results.slice(0, 3).map(simpleGuess);
 }
@@ -484,6 +509,8 @@ function simpleGuess(result) {
 function plantIdErrorWords(error) {
   if (error.status === 403) return `This website isn't allowed to use the plant helper yet. An adult needs to add "${location.origin}" to ALLOWED_SITES (see README).`;
   if (error.status === 401 || error.status === 500) return "The plant helper's key isn't working. An adult needs to check it (see README).";
+  if (error.slowDown) return "Lots of photo checks came from here in the last minute. Wait a minute, then tap Try again.";
+  if (error.status === 428) return "We couldn't check that you're a real person (not a robot). Reload the page and try again.";
   if (error.status === 429) return "We used up today's free plant checks. Try again tomorrow. If you know the plant, go back and pick it from the list.";
   if (error.status === 400 || error.status === 413 || error.status === 415) return "The AI couldn't read this photo. Go back and try a different photo.";
   if (!navigator.onLine) return "No internet. The plant AI needs internet. If you know the plant, go back and pick it from the list.";
@@ -668,6 +695,16 @@ const ENDANGERED_REPORT_FORM = "https://survey123.arcgis.com/share/f57cba58511a4
 // The city's email address. It isn't written in our code: the plant helper gives it to us (see README).
 let cityEmail = null;
 
+// A box drawn around Dane County, where Sun Prairie is. The city only takes reports about plants inside it.
+const CITY_AREA = { south: 42.84, north: 43.30, west: -89.84, east: -89.00 };
+
+// Is the plant's spot inside the box around Dane County?
+function isNearSunPrairie() {
+  if (!plantLocation) return false;
+  const { lat, lon } = plantLocation;
+  return lat >= CITY_AREA.south && lat <= CITY_AREA.north && lon >= CITY_AREA.west && lon <= CITY_AREA.east;
+}
+
 // Is this report about an endangered or threatened plant? Then its spot stays secret.
 function isSecretSpot() {
   return Boolean(decision && decision.plant && isProtected(decision.plant));
@@ -682,7 +719,18 @@ function updateReportScreen() {
   if (plantLocation) document.getElementById("spot-map").href = mapLink();
   document.getElementById("report-link").href = isSecretSpot() ? ENDANGERED_REPORT_FORM : INVASIVE_REPORT_PAGE;
   document.getElementById("email-problem").hidden = true;
+  showCityEmailIfLocal();
   showLearnLink(decision && decision.plant);
+}
+
+// Only spots near Sun Prairie get the "Email the city" button. Other spots are told to report to the DNR.
+function showCityEmailIfLocal() {
+  const local = isNearSunPrairie();
+  document.getElementById("email-button").hidden = !local;
+  document.getElementById("email-steps").hidden = !local;
+  document.getElementById("outside-area").hidden = local;
+  document.getElementById("report-title").textContent = local ? "Email it to the city" : "Report it to the DNR";
+  document.getElementById("dnr-lead").textContent = local ? "Want to tell the state too?" : "Outside the Sun Prairie area:";
 }
 
 // The "Learn about…" link: the plant's own page, or the DNR's main page for its kind of plant.
@@ -761,6 +809,7 @@ async function getCityEmail() {
 // "Email the city": open the person's own email app with everything filled in. They add the photo and tap Send.
 async function emailCity() {
   const problem = document.getElementById("email-problem");
+  if (!isNearSunPrairie()) return; // the button is hidden for spots outside the area, but just in case
   try {
     const to = await getCityEmail();
     location.href = `mailto:${to}?subject=${encodeURIComponent(emailSubject())}&body=${encodeURIComponent(emailBody())}`;
@@ -822,6 +871,13 @@ function startOver() {
   showScreen("home");
 }
 
+// Tell the plant helper "someone opened the app", so it can count visits by city, state and country.
+// Only on the live website (not a laptop test), and we don't wait for an answer.
+function countVisit() {
+  if (location.protocol !== "https:") return;
+  fetch(HELPER_URL + "/visit", { method: "POST", keepalive: true }).catch(() => {});
+}
+
 // Get the app ready when the page loads.
 function start() {
   for (const id of ["photo-tip", "location-tip"]) FIRST_TIPS[id] = document.getElementById(id).innerHTML;
@@ -831,6 +887,7 @@ function start() {
   loadInvasiveList();
   loadEndangeredList();
   showScreen("home");
+  countVisit();
 }
 
 start();
