@@ -824,17 +824,12 @@ async function emailCity() {
   setTimeout(() => (button.textContent = "✉️ Email the city"), 3000);
 }
 
-// Some laptops have no email app set up, so nothing opens. If we don't leave the page within
-// 3 seconds, explain what to do. (We never show the city's address on the page.)
+// Some laptops have no email app set up, so nothing opens. If our page is still the one in front
+// 3 seconds later, explain what to do. (We never show the city's address on the page.)
 function watchForEmailApp() {
-  let opened = false;
-  const leftThePage = () => (opened = true);
-  window.addEventListener("blur", leftThePage, { once: true });
-  document.addEventListener("visibilitychange", leftThePage, { once: true });
   setTimeout(() => {
-    window.removeEventListener("blur", leftThePage);
-    document.removeEventListener("visibilitychange", leftThePage);
-    if (opened) return;
+    const emailAppInFront = document.hidden || !document.hasFocus();
+    if (emailAppInFront) return;
     const help = document.getElementById("email-help");
     help.textContent = "Nothing opened? This device may not have an email app set up. Try again on a phone, " +
       "or tap 📋 Copy details to save the report and send it later.";
