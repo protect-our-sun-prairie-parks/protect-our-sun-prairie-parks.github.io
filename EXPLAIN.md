@@ -79,6 +79,9 @@ Sun Prairie Parks and Rec put QR codes in some parks that open our app. We use C
 **Why no login?**
 A login means storing people's names and passwords, and keeping those safe is a big job. Our app doesn't need to know who you are to help find invasive plants, so we left it out. Safer and simpler!
 
+**Can anyone anywhere email the city with your app?**
+No. The city only takes care of plants near Sun Prairie, so the app checks where the plant is. If the spot is outside a box we drew around Dane County, the **Email the city** button disappears, and the app tells you to report it to the DNR instead. And the app never sends email by itself: a real person has to tap Send in their own email app, so a robot can't send emails with it.
+
 **Why does the app email the city instead of the DNR?**
 The city of Sun Prairie asked for it. The city takes care of the parks, so it can send people to pull invasive plants and protect rare ones. If you want to tell the state too, there's a small "Want to tell the state too?" link to the DNR's report page.
 

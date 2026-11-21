@@ -668,6 +668,16 @@ const ENDANGERED_REPORT_FORM = "https://survey123.arcgis.com/share/f57cba58511a4
 // The city's email address. It isn't written in our code: the plant helper gives it to us (see README).
 let cityEmail = null;
 
+// A box drawn around Dane County, where Sun Prairie is. The city only takes reports about plants inside it.
+const CITY_AREA = { south: 42.84, north: 43.30, west: -89.84, east: -89.00 };
+
+// Is the plant's spot inside the box around Dane County?
+function isNearSunPrairie() {
+  if (!plantLocation) return false;
+  const { lat, lon } = plantLocation;
+  return lat >= CITY_AREA.south && lat <= CITY_AREA.north && lon >= CITY_AREA.west && lon <= CITY_AREA.east;
+}
+
 // Is this report about an endangered or threatened plant? Then its spot stays secret.
 function isSecretSpot() {
   return Boolean(decision && decision.plant && isProtected(decision.plant));
@@ -682,7 +692,18 @@ function updateReportScreen() {
   if (plantLocation) document.getElementById("spot-map").href = mapLink();
   document.getElementById("report-link").href = isSecretSpot() ? ENDANGERED_REPORT_FORM : INVASIVE_REPORT_PAGE;
   document.getElementById("email-problem").hidden = true;
+  showCityEmailIfLocal();
   showLearnLink(decision && decision.plant);
+}
+
+// Only spots near Sun Prairie get the "Email the city" button. Other spots are told to report to the DNR.
+function showCityEmailIfLocal() {
+  const local = isNearSunPrairie();
+  document.getElementById("email-button").hidden = !local;
+  document.getElementById("email-steps").hidden = !local;
+  document.getElementById("outside-area").hidden = local;
+  document.getElementById("report-title").textContent = local ? "Email it to the city" : "Report it to the DNR";
+  document.getElementById("dnr-lead").textContent = local ? "Want to tell the state too?" : "Outside the Sun Prairie area:";
 }
 
 // The "Learn about…" link: the plant's own page, or the DNR's main page for its kind of plant.
@@ -761,6 +782,7 @@ async function getCityEmail() {
 // "Email the city": open the person's own email app with everything filled in. They add the photo and tap Send.
 async function emailCity() {
   const problem = document.getElementById("email-problem");
+  if (!isNearSunPrairie()) return; // the button is hidden for spots outside the area, but just in case
   try {
     const to = await getCityEmail();
     location.href = `mailto:${to}?subject=${encodeURIComponent(emailSubject())}&body=${encodeURIComponent(emailBody())}`;
