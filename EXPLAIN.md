@@ -97,6 +97,9 @@ We looked at having the app send the email for us, so the photo would be attache
 - Spammers could use our helper to flood the city's inbox.
 - The city couldn't write back to the person who found the plant. With your own email app, it can.
 
+**What if nothing happens when I tap Email the city?**
+Some computers don't have an email app set up, so there's nothing to open. The button says "Opening your email app…", and if nothing opens after 3 seconds, the app tells you to try on a phone or copy the details for later. Phones always have a mail app, so it works there.
+
 **Why can't the app attach the photo?**
 Email links can fill in the address, subject and message, but they can't attach a file. So the screen and the email both remind you to attach your photo.
 

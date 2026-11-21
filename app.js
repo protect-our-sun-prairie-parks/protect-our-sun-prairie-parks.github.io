@@ -719,6 +719,7 @@ function updateReportScreen() {
   if (plantLocation) document.getElementById("spot-map").href = mapLink();
   document.getElementById("report-link").href = isSecretSpot() ? ENDANGERED_REPORT_FORM : INVASIVE_REPORT_PAGE;
   document.getElementById("email-problem").hidden = true;
+  document.getElementById("email-help").hidden = true;
   showCityEmailIfLocal();
   showLearnLink(decision && decision.plant);
 }
@@ -810,13 +811,35 @@ async function getCityEmail() {
 async function emailCity() {
   const problem = document.getElementById("email-problem");
   if (!isNearSunPrairie()) return; // the button is hidden for spots outside the area, but just in case
+  const button = document.getElementById("email-button");
+  button.textContent = "⏳ Opening your email app…"; // so it never looks stuck
   try {
     const to = await getCityEmail();
+    watchForEmailApp();
     location.href = `mailto:${to}?subject=${encodeURIComponent(emailSubject())}&body=${encodeURIComponent(emailBody())}`;
   } catch (error) {
     problem.textContent = emailProblemWords(error);
     problem.hidden = false;
   }
+  setTimeout(() => (button.textContent = "✉️ Email the city"), 3000);
+}
+
+// Some laptops have no email app set up, so nothing opens. If we don't leave the page within
+// 3 seconds, explain what to do. (We never show the city's address on the page.)
+function watchForEmailApp() {
+  let opened = false;
+  const leftThePage = () => (opened = true);
+  window.addEventListener("blur", leftThePage, { once: true });
+  document.addEventListener("visibilitychange", leftThePage, { once: true });
+  setTimeout(() => {
+    window.removeEventListener("blur", leftThePage);
+    document.removeEventListener("visibilitychange", leftThePage);
+    if (opened) return;
+    const help = document.getElementById("email-help");
+    help.textContent = "Nothing opened? This device may not have an email app set up. Try again on a phone, " +
+      "or tap 📋 Copy details to save the report and send it later.";
+    help.hidden = false;
+  }, 3000);
 }
 
 // Turn an email problem into plain words.
