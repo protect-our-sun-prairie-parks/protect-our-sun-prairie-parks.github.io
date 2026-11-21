@@ -258,6 +258,7 @@ The other 12 plants in `endangered-plants.json` have no card, but the AI still r
 |---|---|---|
 | [Pl@ntNet API](https://my.plantnet.org) | Identifies the plant from the photo | my-api.plantnet.org |
 | [Cloudflare Workers](https://workers.cloudflare.com) | Runs the plant helper that holds the key and the city's email address | cloudflare.com (free plan: 100,000 requests/day) |
+| [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) | Counts visits, so we can see if people use the app (for example, from the park QR codes). No cookies, no names, no locations | static.cloudflareinsights.com |
 | [Leaflet](https://leafletjs.com/) 1.9.4 | Draws the map | cdnjs.cloudflare.com |
 | [exifr](https://github.com/MikeKovarik/exifr) 7.1.3 | Reads GPS saved inside photos | cdn.jsdelivr.net |
 | [OpenStreetMap](https://www.openstreetmap.org/copyright) | Map pictures (tiles) | tile.openstreetmap.org |
@@ -266,7 +267,12 @@ The other 12 plants in `endangered-plants.json` have no card, but the AI still r
 | [Minnesota DNR](https://www.dnr.state.mn.us/invasives/terrestrialplants/index.html) | Facts for the 2 plants that aren't in Wisconsin's law (sweet clover, reed canary grass) | links in `invasive-plants.json` |
 | [UW–Madison Renz Lab](https://renzweedscience.cals.wisc.edu/?p=6202), [DNR Natural Heritage Inventory](https://nhiportal.dnr.wi.gov/public/data/county) | Which plants are common (invasive) or recorded (endangered) in our county, to pick the plant cards | not stored in the app |
 
-Each library has an `integrity` fingerprint in `index.html`. The browser refuses the file if anyone changed it, so if you upgrade a library, update its fingerprint too.
+Each library has an `integrity` fingerprint in `index.html`. The browser refuses the file if anyone changed it, so if you upgrade a library, update its fingerprint too. (The visit counter is the one exception: Cloudflare updates it often, so it can't have a fingerprint. It can't see the photo, the location or the email.)
+
+### How many people use the app?
+Sun Prairie Parks and Rec put QR codes in some parks, and they open our front page. To see how many visits we get, open **Cloudflare → Analytics & Logs → Web Analytics → protect-our-sun-prairie-parks.github.io**. It shows visits per day and phone vs. computer. It can't tell which park someone was in, or whether they scanned a QR code or typed the address, because all the codes open the same page. (If the city ever makes new codes, give each park its own address, like `…github.io/?park=sheehan`, and we can add a per-park count.)
+
+The plant helper's **Metrics** page in Cloudflare (Workers & Pages → sun-prairie-helper) also shows how many photo checks and **Email the city** taps there were each day.
 
 ## The invasive plant list
 
